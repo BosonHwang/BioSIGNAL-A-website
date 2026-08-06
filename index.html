@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BioSIGNAL-AI — A clinically grounded evaluation network for biosignal AI</title>
+<meta name="description" content="BioSIGNAL-AI: an open Delphi consensus process and a clinically grounded benchmark platform for evaluating biosignal AI.">
+<!-- Social share (demo values) -->
+<meta property="og:title" content="BioSIGNAL-AI — A clinically grounded evaluation network">
+<meta property="og:description" content="Deciding what biosignal AI should be measured against — and building the benchmark to measure it.">
+<meta property="og:type" content="website">
+<style>
+  :root{
+    color-scheme: light;
+    --plane:#f9f9f7; --surface:#fcfcfb; --surface-2:#f2f2ee;
+    --ink:#0b0b0b; --ink-2:#52514e; --muted:#898781;
+    --hair:#e1e0d9; --ring:rgba(11,11,11,0.10);
+    --accent:#2a78d6; --accent-soft:#cde2fb;
+    --critical:#d03b3b; --good:#0ca30c; --warning:#c98500; --violet:#4a3aa7;
+    --grid:#e1e0d9; --baseline:#c3c2b7;
+    --maxw:1120px; --pad:clamp(20px,5vw,64px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:where(:not([data-theme="light"])){
+      color-scheme: dark;
+      --plane:#0d0d0d; --surface:#1a1a19; --surface-2:#232321;
+      --ink:#fff; --ink-2:#c3c2b7; --muted:#898781;
+      --hair:#2c2c2a; --ring:rgba(255,255,255,0.10);
+      --accent:#3987e5; --accent-soft:#104281;
+      --critical:#e66767; --good:#0ca30c; --warning:#eda100; --violet:#9085e9;
+      --grid:#2c2c2a; --baseline:#383835;
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --plane:#0d0d0d; --surface:#1a1a19; --surface-2:#232321;
+    --ink:#fff; --ink-2:#c3c2b7; --muted:#898781;
+    --hair:#2c2c2a; --ring:rgba(255,255,255,0.10);
+    --accent:#3987e5; --accent-soft:#104281;
+    --critical:#e66767; --good:#0ca30c; --warning:#eda100; --violet:#9085e9;
+    --grid:#2c2c2a; --baseline:#383835;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth; scroll-padding-top:118px}
+  body{margin:0; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; background:var(--plane); color:var(--ink); line-height:1.6; -webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding-left:var(--pad); padding-right:var(--pad)}
+  .eyebrow{font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); font-weight:650; margin:0 0 .8rem}
+  h1,h2,h3,h4{line-height:1.18; letter-spacing:-0.02em; font-weight:680; margin:0}
+  h1{font-size:clamp(2.1rem,5.2vw,3.4rem); margin-bottom:1.1rem}
+  h2{font-size:clamp(1.5rem,3.2vw,2.1rem); margin-bottom:.9rem}
+  h3{font-size:1.1rem; margin-bottom:.4rem}
+  p{margin:0 0 1rem}
+  .lead{font-size:clamp(1.05rem,2vw,1.25rem); color:var(--ink-2); max-width:56ch}
+  .muted{color:var(--muted)}
+  .small{font-size:.85rem}
+
+  /* nav */
+  header.nav{position:sticky; top:0; z-index:60; background:color-mix(in srgb,var(--plane) 88%,transparent); backdrop-filter:saturate(1.2) blur(8px); border-bottom:1px solid var(--hair)}
+  .nav-inner{display:flex; align-items:center; gap:1.4rem; height:60px}
+  .brand{display:flex; align-items:center; gap:.55rem; font-weight:720; letter-spacing:-.02em; text-decoration:none}
+  .brand .dot{width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+  .nav-links{display:flex; gap:1.3rem; margin-left:auto; align-items:center}
+  .nav-links a{font-size:.9rem; color:var(--ink-2); text-decoration:none}
+  .nav-links a:hover{color:var(--ink)}
+  .btn{display:inline-block; text-decoration:none; font-weight:620; font-size:.92rem; padding:.6rem 1.15rem; border-radius:999px; border:1px solid transparent; cursor:pointer; transition:transform .08s ease, background .15s ease; font-family:inherit}
+  .btn:active{transform:translateY(1px)}
+  .btn-primary{background:var(--accent); color:#fff}
+  .btn-primary:hover{filter:brightness(1.06)}
+  .btn-ghost{background:transparent; color:var(--ink); border-color:var(--ring)}
+  .btn-ghost:hover{background:var(--surface-2)}
+  .btn-sm{padding:.4rem .85rem; font-size:.84rem}
+  .nav-links .btn{padding:.45rem 1rem}
+
+  section{padding:clamp(48px,7vh,88px) 0}
+  .divider-band{background:var(--surface-2); border-top:1px solid var(--hair); border-bottom:1px solid var(--hair)}
+
+  /* hero */
+  .hero{padding-top:clamp(44px,7vh,80px); padding-bottom:clamp(36px,5vh,60px)}
+  .hero-cta{display:flex; gap:.7rem; flex-wrap:wrap; margin-top:1.5rem}
+
+  /* arm intro cards */
+  .arms{display:grid; grid-template-columns:1fr 1fr; gap:1.1rem; margin-top:2.2rem}
+  .arm{background:var(--surface); border:1px solid var(--hair); border-radius:16px; padding:1.5rem; display:flex; flex-direction:column}
+  .arm .k{font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; font-weight:650; color:var(--accent)}
+  .arm h3{font-size:1.25rem; margin:.35rem 0 .5rem}
+  .arm p{color:var(--ink-2); font-size:.95rem; flex:1}
+  .arm .steps{font-size:.82rem; color:var(--muted); margin:.3rem 0 1rem}
+
+  /* generic card grids */
+  .cards{display:grid; grid-template-columns:1fr 1fr; gap:1.1rem}
+  .card{background:var(--surface); border:1px solid var(--hair); border-radius:14px; padding:1.3rem}
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:1rem}
+  .grid4{display:grid; grid-template-columns:repeat(4,1fr); gap:.9rem}
+
+  /* problem beats + chart (reused) */
+  .beats{display:grid; grid-template-columns:repeat(3,1fr); gap:1.1rem; margin-top:1.6rem}
+  .beat{border-top:2px solid var(--accent); padding-top:.9rem}
+  .beat h3{font-size:1rem}
+  .beat p{font-size:.93rem; color:var(--ink-2); margin:0}
+  .beat .n{font-size:.72rem; color:var(--muted); font-weight:650; letter-spacing:.1em}
+  figure.chart{margin:2.2rem 0 0; background:var(--surface); border:1px solid var(--hair); border-radius:16px; padding:1.3rem clamp(1rem,3vw,1.7rem)}
+  .chart-head{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:.4rem}
+  .chart-title{font-weight:650; font-size:1rem}
+  .chart-note{font-size:.78rem; color:var(--muted)}
+  .panels{display:grid; grid-template-columns:1fr 1fr; gap:clamp(1rem,3vw,2rem); margin-top:1rem}
+  .panel figcaption{font-size:.85rem; color:var(--ink-2); margin-top:.5rem; text-align:center}
+  .r2{font-variant-numeric:tabular-nums; font-weight:650}
+  .r2.good{color:var(--good)} .r2.bad{color:var(--critical)}
+  .callout{margin-top:1.2rem; padding:.9rem 1.1rem; border-left:3px solid var(--critical); background:var(--surface-2); border-radius:0 10px 10px 0; font-size:.94rem}
+  .callout b{color:var(--ink)}
+  svg.plot{display:block; width:100%; height:auto; overflow:visible}
+  .gl{stroke:var(--grid); stroke-width:1} .ax{stroke:var(--baseline); stroke-width:1.5}
+  .ident{stroke:var(--muted); stroke-width:1.5; stroke-dasharray:4 4}
+  .meanl{stroke:var(--critical); stroke-width:1.5; stroke-dasharray:4 4}
+  .axlab{fill:var(--muted); font-size:11px}
+  .pt-good{fill:var(--accent)} .pt-bad{fill:var(--critical)}
+
+  /* sub-nav pills */
+  .subnav{display:flex; gap:.5rem; flex-wrap:wrap; margin-top:1.2rem}
+  .subnav a{font-size:.82rem; font-weight:600; color:var(--ink-2); text-decoration:none; border:1px solid var(--ring); border-radius:999px; padding:.35rem .85rem; background:var(--surface)}
+  .subnav a:hover{border-color:var(--accent); color:var(--ink)}
+  .modhead{display:flex; align-items:baseline; gap:.7rem; margin:2.6rem 0 .6rem}
+  .modhead .mnum{font-size:.75rem; font-weight:700; letter-spacing:.1em; color:var(--accent); border:1px solid var(--accent-soft); border-radius:6px; padding:.1rem .4rem}
+
+  /* status badges */
+  .badge{display:inline-flex; align-items:center; gap:.35rem; font-size:.72rem; font-weight:650; padding:.18rem .55rem; border-radius:999px; border:1px solid var(--ring); white-space:nowrap}
+  .badge:before{content:""; width:7px; height:7px; border-radius:50%; background:var(--muted)}
+  .badge.draft{color:var(--muted)}
+  .badge.review{color:var(--warning)} .badge.review:before{background:var(--warning)}
+  .badge.revised{color:var(--violet)} .badge.revised:before{background:var(--violet)}
+  .badge.consensus{color:var(--good)} .badge.consensus:before{background:var(--good)}
+
+  /* principle list */
+  .filterbar{display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; margin:1.2rem 0}
+  .chip{border:1px solid var(--ring); background:var(--surface); color:var(--ink-2); border-radius:999px; padding:.35rem .8rem; font-size:.8rem; font-weight:600; cursor:pointer; font-family:inherit}
+  .chip[aria-pressed="true"]{background:var(--accent); color:#fff; border-color:var(--accent)}
+  .ptopic{margin-top:1.4rem}
+  .ptopic h4{font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:.5rem}
+  .principle{display:flex; justify-content:space-between; gap:1rem; align-items:flex-start; padding:.85rem 0; border-top:1px solid var(--hair)}
+  .principle .pid{font-variant-numeric:tabular-nums; color:var(--muted); font-size:.82rem; font-weight:650; min-width:2.6rem}
+  .principle .ptxt{flex:1; font-size:.95rem}
+  .principle .ptxt small{color:var(--muted); display:block; margin-top:.15rem; font-size:.8rem}
+
+  /* delphi round widget */
+  .rounds-tl{display:grid; grid-template-columns:repeat(4,1fr); gap:0; margin:1.4rem 0 2rem}
+  .rt{padding:0 .8rem; position:relative}
+  .rt:before{content:""; position:absolute; top:9px; left:0; right:0; height:2px; background:var(--hair)}
+  .rt:first-child:before{left:50%} .rt:last-child:before{right:50%}
+  .rt .d{position:relative; z-index:1; width:18px; height:18px; border-radius:50%; background:var(--surface); border:2px solid var(--baseline); margin:0 auto .6rem}
+  .rt.active .d{border-color:var(--accent); background:var(--accent)}
+  .rt h4{font-size:.9rem; text-align:center} .rt p{font-size:.78rem; color:var(--ink-2); text-align:center; margin:.15rem 0 0}
+  .rt .w{display:block; text-align:center; font-size:.68rem; color:var(--muted); letter-spacing:.06em; margin-bottom:.4rem}
+  .survey{background:var(--surface); border:1px solid var(--hair); border-radius:14px; padding:1.4rem}
+  .survey .prev{font-size:.8rem; color:var(--muted); background:var(--surface-2); border-radius:8px; padding:.5rem .7rem; margin:.6rem 0 1rem}
+  .likert{display:flex; gap:.3rem; flex-wrap:wrap; margin:.6rem 0}
+  .likert button{width:2.1rem; height:2.1rem; border-radius:8px; border:1px solid var(--ring); background:var(--surface); color:var(--ink-2); font-weight:650; cursor:pointer; font-family:inherit}
+  .likert button[aria-pressed="true"]{background:var(--accent); color:#fff; border-color:var(--accent)}
+  .likert-scale{display:flex; justify-content:space-between; font-size:.72rem; color:var(--muted); max-width:22rem}
+  .survey textarea{width:100%; font:inherit; font-size:.9rem; padding:.6rem .7rem; border:1px solid var(--hair); border-radius:10px; background:var(--surface); color:var(--ink); resize:vertical; min-height:64px}
+  .prog{height:6px; background:var(--surface-2); border-radius:999px; overflow:hidden; margin-top:.4rem}
+  .prog span{display:block; height:100%; background:var(--accent); width:35%}
+
+  /* stat tiles */
+  .tiles{display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin:1.4rem 0}
+  .tile{background:var(--surface); border:1px solid var(--hair); border-radius:14px; padding:1.2rem}
+  .tile .v{font-size:2rem; font-weight:720; letter-spacing:-.03em; line-height:1; color:var(--accent); font-variant-numeric:tabular-nums}
+  .tile .l{font-size:.85rem; color:var(--ink-2); margin-top:.4rem}
+
+  /* panels / datasets */
+  .pcard{border:1px solid var(--hair); border-radius:14px; background:var(--surface); padding:1.1rem}
+  .pcard h3{font-size:1.05rem}
+  .pcard .meta{font-size:.8rem; color:var(--muted); margin-top:.3rem}
+  .pcard.live{border-color:var(--accent)}
+  .kv{display:flex; justify-content:space-between; font-size:.82rem; padding:.28rem 0; border-top:1px dashed var(--hair)}
+  .kv:first-of-type{border-top:none}
+  .kv span:first-child{color:var(--muted)}
+
+  /* task families */
+  .fams{display:grid; grid-template-columns:1fr 1fr; gap:.6rem 2rem; margin-top:1rem}
+  .fam{display:flex; gap:.7rem; padding:.6rem 0; border-top:1px solid var(--hair); font-size:.92rem}
+  .fam b{white-space:nowrap}
+  .fam span{color:var(--muted); font-size:.85rem}
+
+  /* metrics */
+  .metric-g{border:1px solid var(--hair); border-radius:12px; background:var(--surface); padding:1rem 1.1rem}
+  .metric-g h4{font-size:.95rem; margin-bottom:.3rem}
+  .metric-g p{font-size:.85rem; color:var(--ink-2); margin:0}
+
+  /* leaderboard */
+  .lb-controls{display:flex; gap:.6rem; flex-wrap:wrap; margin:1.2rem 0}
+  .lb-controls select{font:inherit; font-size:.85rem; padding:.45rem .7rem; border:1px solid var(--hair); border-radius:10px; background:var(--surface); color:var(--ink)}
+  .lb-wrap{overflow-x:auto; border:1px solid var(--hair); border-radius:14px; background:var(--surface)}
+  table.lb{width:100%; border-collapse:collapse; font-size:.9rem; min-width:640px}
+  table.lb th, table.lb td{text-align:left; padding:.7rem .9rem; border-bottom:1px solid var(--hair)}
+  table.lb th{font-size:.75rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:650}
+  table.lb tbody tr:last-child td{border-bottom:none}
+  table.lb td.num{font-variant-numeric:tabular-nums; text-align:right}
+  .cvs{display:inline-block; min-width:2.6rem; text-align:center; font-variant-numeric:tabular-nums; font-weight:650; border-radius:6px; padding:.1rem .4rem; font-size:.82rem}
+  .cvs.hi{background:color-mix(in srgb,var(--good) 18%,transparent); color:var(--good)}
+  .cvs.mid{background:color-mix(in srgb,var(--warning) 20%,transparent); color:var(--warning)}
+  .cvs.lo{background:color-mix(in srgb,var(--critical) 16%,transparent); color:var(--critical)}
+  .rank{color:var(--muted); font-variant-numeric:tabular-nums}
+
+  /* forms */
+  .formbox{background:var(--surface); border:1px solid var(--hair); border-radius:16px; padding:clamp(1.4rem,3vw,2rem)}
+  .rf-roles{display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:1rem}
+  .rf-grid{display:grid; grid-template-columns:1fr 1fr; gap:.7rem}
+  .rf-field{display:flex; flex-direction:column; gap:.3rem}
+  .rf-field.full{grid-column:1/-1}
+  .rf-field label{font-size:.78rem; color:var(--ink-2); font-weight:620}
+  .rf-field input, .rf-field select{font:inherit; padding:.6rem .7rem; border:1px solid var(--hair); border-radius:10px; background:var(--surface); color:var(--ink)}
+  .rf-field input:focus, .rf-field select:focus{outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent)}
+  .rf-check{display:flex; gap:.5rem; align-items:flex-start; font-size:.88rem; color:var(--ink-2); margin-top:.9rem}
+  .rf-err{color:var(--critical); font-size:.8rem; min-height:1.1em; margin-top:.5rem}
+  .rf-thanks{text-align:center; padding:1.2rem 0 .2rem}
+  .rf-thanks .check{width:44px;height:44px;border-radius:50%;background:var(--good);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.3rem;font-weight:700}
+  ul.plain{margin:.4rem 0 1rem; padding-left:1.1rem; color:var(--ink-2)}
+  ul.plain li{margin:.3rem 0}
+
+  /* trust / footer */
+  .trust{display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; margin-top:1.4rem}
+  .trust h4{font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:.5rem}
+  .trust p{font-size:.92rem; color:var(--ink-2); margin:0}
+  .ph{color:var(--muted); font-style:italic}
+  footer{border-top:1px solid var(--hair); padding:2rem 0; margin-top:1rem}
+  .foot-inner{display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; font-size:.85rem; color:var(--muted)}
+  .foot-inner a{color:var(--ink-2); text-decoration:none}
+  .demo-badge{position:fixed; bottom:14px; right:14px; z-index:70; background:var(--ink); color:var(--plane); font-size:.72rem; font-weight:650; letter-spacing:.04em; padding:.35rem .75rem; border-radius:999px; opacity:.82; text-decoration:none}
+
+  @media (max-width:860px){
+    .arms,.cards,.beats,.panels,.grid3,.grid4,.rf-grid,.fams,.rounds-tl,.tiles,.trust{grid-template-columns:1fr}
+    .grid4{grid-template-columns:1fr 1fr}
+    .rounds-tl{gap:1.2rem} .rt:before{display:none}
+    .nav-links a:not(.btn){display:none}
+  }
+</style>
+</head>
+<body>
+<a id="top"></a>
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top"><span class="dot"></span>BioSIGNAL-AI</a>
+    <nav class="nav-links">
+      <a href="#problem">Problem</a>
+      <a href="#delphi">Delphi</a>
+      <a href="#benchmark">Benchmark</a>
+      <a href="#paper">About</a>
+      <a class="btn btn-primary" href="#join">Join the Delphi</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HOME / HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">A clinically grounded evaluation network for biosignal AI</p>
+    <h1>Deciding what biosignal AI should be measured&nbsp;against —<br>and building the benchmark to measure&nbsp;it.</h1>
+    <p class="lead">Biosignal AI is benchmarked on what has been recorded, not on what a clinician needs to know. BioSIGNAL-AI closes that gap in two connected steps: an open <b>Delphi consensus</b> on evaluation principles, feeding a clinically grounded <b>benchmark platform</b>.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#join">Join the Delphi →</a>
+      <a class="btn btn-ghost" href="#benchmark">Explore the benchmark</a>
+    </div>
+
+    <div class="arms">
+      <div class="arm">
+        <span class="k">Part A · The process</span>
+        <h3>The Delphi</h3>
+        <p>Clinicians, AI researchers, and benchmark experts converge — over structured survey rounds — on the principles that define a clinically meaningful evaluation.</p>
+        <div class="steps">Candidate Principles → Rounds → Consensus Results</div>
+        <a class="btn btn-ghost btn-sm" href="#delphi">Go to the Delphi</a>
+      </div>
+      <div class="arm">
+        <span class="k">Part B · The platform</span>
+        <h3>The Benchmark</h3>
+        <p>Consensus principles become concrete evaluation rules, applied across biosignal domains through modality panels, shared metrics, and a public leaderboard.</p>
+        <div class="steps">Framework → Panels → Tasks → Datasets → Metrics → Leaderboard</div>
+        <a class="btn btn-ghost btn-sm" href="#benchmark">Go to the benchmark</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE PROBLEM ============ -->
+<section id="problem" class="divider-band">
+  <div class="wrap">
+    <p class="eyebrow">The problem</p>
+    <h2>When tasks are inherited from data, benchmarks track what has been measured — not what needs to be.</h2>
+    <p class="lead" style="max-width:62ch">A selection effect operates at the level of the whole field. It is nobody's individual error, and current evaluation practice cannot detect it, because test sets are drawn from the same filtered pool as training data. That is why the fix has to be consensus, not another dataset.</p>
+    <div class="beats">
+      <div class="beat"><div class="n">01</div><h3>Evaluation is disconnected from clinical reality</h3><p>Automated quality indices are validated against noise estimates and beat-detection agreement — not against whether a reader would call the trace diagnostic.</p></div>
+      <div class="beat"><div class="n">02</div><h3>Data became the benchmark</h3><p>Public corpora come from elective, ambulatory settings. Signal quality matters most in acute presentations — exactly where the least public data exists.</p></div>
+      <div class="beat"><div class="n">03</div><h3>The cost is silent degradation</h3><p>When a development-time filter is dropped at inference, the model returns an output for every input — including those it was never trained to handle — with no signal.</p></div>
+    </div>
+
+    <figure class="chart">
+      <div class="chart-head">
+        <span class="chart-title">12-lead reconstruction: looks solved, isn't</span>
+        <span class="chart-note">Schematic of the reported effect (Presacan et&nbsp;al.). Illustrative points; annotated R² are published values.</span>
+      </div>
+      <div class="panels">
+        <figure class="panel" style="margin:0">
+          <svg class="plot" viewBox="0 0 300 240" role="img" aria-label="Reconstructed QT interval tracks true QT, R-squared 0.91.">
+            <line class="gl" x1="46" y1="30" x2="280" y2="30"/><line class="gl" x1="46" y1="90" x2="280" y2="90"/><line class="gl" x1="46" y1="150" x2="280" y2="150"/>
+            <line class="ax" x1="46" y1="30" x2="46" y2="200"/><line class="ax" x1="46" y1="200" x2="280" y2="200"/>
+            <line class="ident" x1="46" y1="200" x2="280" y2="30"/>
+            <g class="pt-good" id="ptsGood"></g>
+            <text class="axlab" x="163" y="228" text-anchor="middle">True QT interval</text>
+            <text class="axlab" x="16" y="118" text-anchor="middle" transform="rotate(-90 16 118)">Reconstructed</text>
+          </svg>
+          <figcaption>Temporal features recovered — QT interval <span class="r2 good">R²&nbsp;=&nbsp;0.91</span></figcaption>
+        </figure>
+        <figure class="panel" style="margin:0">
+          <svg class="plot" viewBox="0 0 300 240" role="img" aria-label="Reconstructed V3 R-peak amplitude collapses to the population mean, R-squared 0.05.">
+            <line class="gl" x1="46" y1="30" x2="280" y2="30"/><line class="gl" x1="46" y1="90" x2="280" y2="90"/><line class="gl" x1="46" y1="150" x2="280" y2="150"/>
+            <line class="ax" x1="46" y1="30" x2="46" y2="200"/><line class="ax" x1="46" y1="200" x2="280" y2="200"/>
+            <line class="ident" x1="46" y1="200" x2="280" y2="30"/>
+            <line class="meanl" x1="46" y1="115" x2="280" y2="115"/>
+            <text class="axlab" x="274" y="110" text-anchor="end" fill="var(--critical)">population mean</text>
+            <g class="pt-bad" id="ptsBad"></g>
+            <text class="axlab" x="163" y="228" text-anchor="middle">True V3 R-peak amplitude</text>
+            <text class="axlab" x="16" y="118" text-anchor="middle" transform="rotate(-90 16 118)">Reconstructed</text>
+          </svg>
+          <figcaption>Precordial amplitude collapsed — V3 R-peak <span class="r2 bad">R²&nbsp;=&nbsp;0.05</span></figcaption>
+        </figure>
+      </div>
+      <div class="callout">Reconstructions were <b>visually indistinguishable</b> from real recordings, and mean-absolute-error rewarded exactly this mean-guessing. As the authors note: <b>an infarct oriented orthogonally to the input lead would be reconstructed as normal.</b></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ PART A: THE DELPHI ============ -->
+<section id="delphi">
+  <div class="wrap">
+    <p class="eyebrow">Part A · The Delphi</p>
+    <h2>Building consensus on how biosignal AI should be evaluated.</h2>
+    <p class="lead">A structured, multi-round process in which experts review, rate, and refine candidate evaluation principles until they reach consensus. The agreed principles become the benchmark's rules.</p>
+    <nav class="subnav">
+      <a href="#principles">Candidate Principles</a>
+      <a href="#rounds">Delphi Rounds</a>
+      <a href="#results">Consensus Results</a>
+      <a href="#join">Join</a>
+    </nav>
+
+    <!-- Candidate Principles -->
+    <div class="modhead"><span class="mnum">A1</span><h3>Candidate Principles</h3></div>
+    <p class="muted small">Draft consensus statements grouped by theme. Experts preview them here before each round. Filter by status:</p>
+    <div class="filterbar" id="pfilter">
+      <button class="chip" data-st="all" aria-pressed="true">All</button>
+      <button class="chip" data-st="draft" aria-pressed="false">Draft</button>
+      <button class="chip" data-st="review" aria-pressed="false">Under review</button>
+      <button class="chip" data-st="revised" aria-pressed="false">Revised</button>
+      <button class="chip" data-st="consensus" aria-pressed="false">Consensus reached</button>
+    </div>
+
+    <div class="ptopic">
+      <h4>Clinical realism</h4>
+      <div class="principle" data-st="consensus"><span class="pid">CR-1</span><span class="ptxt">Evaluation tasks must be defined by clinical decisions, not by what labels a dataset happens to contain.<small>Quality thresholds reflect reader-level diagnostic adequacy.</small></span><span class="badge consensus">Consensus reached</span></div>
+      <div class="principle" data-st="review"><span class="pid">CR-2</span><span class="ptxt">Models must be evaluated on acute-setting recordings, not only elective/ambulatory data.</span><span class="badge review">Under review</span></div>
+    </div>
+    <div class="ptopic">
+      <h4>Datasets</h4>
+      <div class="principle" data-st="revised"><span class="pid">DS-1</span><span class="ptxt">Every benchmark dataset declares its acquisition context and clinical setting as first-class metadata.</span><span class="badge revised">Revised</span></div>
+      <div class="principle" data-st="draft"><span class="pid">DS-2</span><span class="ptxt">A hidden test set drawn from a different site/setting than training is required for headline claims.</span><span class="badge draft">Draft</span></div>
+    </div>
+    <div class="ptopic">
+      <h4>Metrics</h4>
+      <div class="principle" data-st="consensus"><span class="pid">MT-1</span><span class="ptxt">Aggregate error metrics must be reported alongside a clinical-adequacy metric tied to a decision threshold.<small>Mean-absolute-error alone rewards mean-guessing.</small></span><span class="badge consensus">Consensus reached</span></div>
+      <div class="principle" data-st="review"><span class="pid">MT-2</span><span class="ptxt">Failure severity is scored by clinical consequence, not by average deviation.</span><span class="badge review">Under review</span></div>
+    </div>
+    <div class="ptopic">
+      <h4>Reporting</h4>
+      <div class="principle" data-st="draft"><span class="pid">RP-1</span><span class="ptxt">Any input-quality filter used in development must be disclosed and applied — or explicitly removed — at inference.</span><span class="badge draft">Draft</span></div>
+      <div class="principle" data-st="revised"><span class="pid">RP-2</span><span class="ptxt">Abstention behaviour on out-of-distribution inputs is reported as a first-class result.</span><span class="badge revised">Revised</span></div>
+    </div>
+
+    <!-- Delphi Rounds -->
+    <div class="modhead"><span class="mnum">A2</span><h3>Delphi Rounds</h3></div>
+    <p class="muted small">The consensus process runs in structured rounds with controlled feedback between them.</p>
+    <div class="rounds-tl">
+      <div class="rt active"><div class="d"></div><span class="w">NOW OPEN</span><h4>Round 1 · Scope</h4><p>Nominate & rate which principles belong in scope.</p></div>
+      <div class="rt"><div class="d"></div><span class="w">NEXT</span><h4>Round 2 · Criteria</h4><p>Refine wording of adequacy criteria.</p></div>
+      <div class="rt"><div class="d"></div><span class="w">THEN</span><h4>Round 3 · Protocol</h4><p>Rate final protocol & metrics.</p></div>
+      <div class="rt"><div class="d"></div><span class="w">OUTCOME</span><h4>Statement</h4><p>Published consensus checklist.</p></div>
+    </div>
+
+    <div class="survey" id="survey">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:.4rem">
+        <b>Round 1 · rate this principle</b>
+        <span class="small muted">Item MT-2 · 4 of 11 completed</span>
+      </div>
+      <p style="margin:.7rem 0 .2rem">“Failure severity is scored by clinical consequence, not by average deviation.”</p>
+      <div class="prev">Controlled feedback — Round&nbsp;0 group median: <b>7 / 9</b> · your previous rating: <b>6</b> · 22% left a comment on wording.</div>
+      <div class="likert" id="likert" role="group" aria-label="Agreement 1 to 9">
+        <button type="button">1</button><button type="button">2</button><button type="button">3</button><button type="button">4</button><button type="button">5</button><button type="button">6</button><button type="button">7</button><button type="button">8</button><button type="button">9</button>
+      </div>
+      <div class="likert-scale" style="margin-bottom:.9rem"><span>Strongly disagree</span><span>Strongly agree</span></div>
+      <textarea id="scomment" placeholder="Optional comment on wording or scope…"></textarea>
+      <div style="margin-top:.9rem; display:flex; align-items:center; gap:1rem; flex-wrap:wrap">
+        <button class="btn btn-primary btn-sm" id="sSubmit">Submit rating</button>
+        <span class="small muted" id="sMsg" aria-live="polite"></span>
+      </div>
+      <div class="prog"><span></span></div>
+    </div>
+
+    <!-- Consensus Results -->
+    <div class="modhead"><span class="mnum">A3</span><h3>Consensus Results</h3></div>
+    <p class="muted small">Published after each completed round (figures below are illustrative).</p>
+    <div class="tiles">
+      <div class="tile"><div class="v">64%</div><div class="l">of candidate principles reached consensus (≥ 80% agreement)</div></div>
+      <div class="tile"><div class="v">7.8</div><div class="l">median agreement score across all items (1–9)</div></div>
+      <div class="tile"><div class="v">3</div><div class="l">items revised & carried to the next round</div></div>
+    </div>
+    <div class="cards" style="margin-top:.4rem">
+      <div class="card">
+        <span class="badge consensus" style="margin-bottom:.6rem">Consensus reached</span>
+        <ul class="plain"><li>CR-1 · Tasks defined by clinical decisions</li><li>MT-1 · Report clinical-adequacy metric alongside error</li></ul>
+      </div>
+      <div class="card">
+        <span class="badge review" style="margin-bottom:.6rem">Unresolved / carried forward</span>
+        <ul class="plain"><li>CR-2 · Acute-setting evaluation requirement</li><li>MT-2 · Severity scoring definition</li></ul>
+      </div>
+    </div>
+    <div style="margin-top:1.2rem"><a class="btn btn-ghost btn-sm" href="#top" id="dl">↓ Download consensus checklist (PDF)</a> <span class="small muted" id="dlMsg"></span></div>
+  </div>
+</section>
+
+<!-- ============ JOIN ============ -->
+<section id="join" class="divider-band">
+  <div class="wrap">
+    <p class="eyebrow">Join the Delphi</p>
+    <h2>Help decide what biosignal AI should be measured against.</h2>
+    <p class="lead" style="max-width:56ch">Round 1 is open. Register to receive the round-1 questionnaire and schedule. Open to clinicians, AI researchers, and benchmark/data experts.</p>
+    <div class="formbox" style="max-width:600px; margin-top:1.4rem">
+      <form id="regForm" novalidate>
+        <div class="rf-roles" role="group" aria-label="Your role">
+          <button type="button" class="chip" data-role="Clinician" aria-pressed="true">Clinician</button>
+          <button type="button" class="chip" data-role="AI researcher" aria-pressed="false">AI researcher</button>
+          <button type="button" class="chip" data-role="Benchmark / data expert" aria-pressed="false">Benchmark / data expert</button>
+        </div>
+        <div class="rf-grid">
+          <div class="rf-field"><label for="rfName">Name</label><input id="rfName" type="text" autocomplete="name" placeholder="Dr. Jane Doe"></div>
+          <div class="rf-field"><label for="rfAff">Affiliation</label><input id="rfAff" type="text" autocomplete="organization" placeholder="Institution / hospital"></div>
+          <div class="rf-field"><label for="rfEmail">Email</label><input id="rfEmail" type="email" autocomplete="email" placeholder="you@hospital.org"></div>
+          <div class="rf-field"><label for="rfExp">Expertise area</label><input id="rfExp" type="text" placeholder="e.g. cardiology, EEG, ML"></div>
+        </div>
+        <label class="rf-check"><input type="checkbox" id="rfConsent"> I'm willing to take part in 2–3 short survey rounds over the coming months.</label>
+        <div style="margin-top:1rem"><button type="submit" class="btn btn-primary">Register interest</button></div>
+        <div class="rf-err" id="rfErr" aria-live="polite"></div>
+      </form>
+      <div class="rf-thanks" id="rfThanks" hidden>
+        <div class="check">✓</div>
+        <h3 id="rfThanksMsg" style="margin-bottom:.4rem">You're registered.</h3>
+        <p class="muted small" style="margin:0">Next step: you'll receive the Round&nbsp;1 questionnaire and schedule by email. <br>Demo only — nothing was sent. In production this posts to your Delphi intake (Qualtrics / REDCap / Google Form).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART B: THE BENCHMARK ============ -->
+<section id="benchmark">
+  <div class="wrap">
+    <p class="eyebrow">Part B · The Benchmark</p>
+    <h2>A clinically grounded benchmark platform for biosignal AI.</h2>
+    <p class="lead">Consensus principles become concrete, modality-agnostic evaluation rules — instantiated in domain panels, shared metrics, and a public leaderboard. Modality-specific detail lives in the panels, never in the core.</p>
+    <nav class="subnav">
+      <a href="#framework">Framework</a>
+      <a href="#panels">Evaluation Panels</a>
+      <a href="#tasks">Tasks</a>
+      <a href="#datasets">Datasets</a>
+      <a href="#metrics">Metrics</a>
+      <a href="#leaderboard">Leaderboard</a>
+      <a href="#submit">Submit</a>
+    </nav>
+
+    <!-- Framework -->
+    <div class="modhead" id="framework"><span class="mnum">B1</span><h3>Framework</h3></div>
+    <p class="muted small">The general evaluation rules shared across every biosignal task. Bound directly to the Delphi consensus.</p>
+    <div class="grid3" style="margin-top:1rem">
+      <div class="card"><h3>What is an evaluation task</h3><p class="small muted">A task is defined by a clinical decision and its adequacy criterion — not by an available label. Each task states the decision it supports.</p></div>
+      <div class="card"><h3>Design & validation rules</h3><p class="small muted">Site/setting-shifted hidden test set for headline claims; declared data splits; disclosed input-quality filters applied consistently at inference.</p></div>
+      <div class="card"><h3>Reporting rules</h3><p class="small muted">Error metric + clinical-adequacy metric together; abstention behaviour reported; failure severity by clinical consequence.</p></div>
+    </div>
+    <p class="small" style="margin-top:1rem"><a href="#delphi" style="color:var(--accent)">↑ Each rule traces to a consensus principle (CR-1, MT-1, RP-1 …)</a> — the framework is the operational form of Part A.</p>
+
+    <!-- Evaluation Panels -->
+    <div class="modhead" id="panels"><span class="mnum">B2</span><h3>Evaluation Panels</h3></div>
+    <p class="muted small">Concrete biosignal domains. Each panel holds its own tasks, datasets, and results — new panels are added over time without changing the core.</p>
+    <div class="grid3" style="margin-top:1rem">
+      <div class="pcard live"><h3>ECG Panel <span class="badge consensus" style="vertical-align:middle">Live</span></h3><div class="meta">Arrhythmia · ischaemia · lead reconstruction</div><div style="margin-top:.6rem"><div class="kv"><span>Tasks</span><span>6</span></div><div class="kv"><span>Datasets</span><span>4</span></div><div class="kv"><span>Models ranked</span><span>12</span></div></div></div>
+      <div class="pcard"><h3>EEG Panel</h3><div class="meta">Seizure detection · sleep staging</div><div style="margin-top:.6rem"><div class="kv"><span>Federates</span><span>SzCORE</span></div><div class="kv"><span>Tasks</span><span>3</span></div><div class="kv"><span>Status</span><span>Onboarding</span></div></div></div>
+      <div class="pcard"><h3>PPG / Wearable Panel</h3><div class="meta">Acute & ambulatory · motion artefact</div><div style="margin-top:.6rem"><div class="kv"><span>Tasks</span><span>2</span></div><div class="kv"><span>Status</span><span>Invited</span></div></div></div>
+      <div class="pcard"><h3>ICU Waveform Panel</h3><div class="meta">Haemodynamic instability · alarms</div><div style="margin-top:.6rem"><div class="kv"><span>Tasks</span><span>2</span></div><div class="kv"><span>Status</span><span>Invited</span></div></div></div>
+      <div class="pcard"><h3>Multimodal Panel</h3><div class="meta">ECG + PPG + resp · fusion</div><div style="margin-top:.6rem"><div class="kv"><span>Tasks</span><span>1</span></div><div class="kv"><span>Status</span><span>Planned</span></div></div></div>
+      <div class="pcard" style="border-style:dashed"><h3>+ Propose a panel</h3><div class="meta">Bring a new modality or federate an existing framework.</div><div style="margin-top:.8rem"><a class="btn btn-ghost btn-sm" href="#submit">Get in touch</a></div></div>
+    </div>
+
+    <!-- Tasks -->
+    <div class="modhead" id="tasks"><span class="mnum">B3</span><h3>Tasks</h3></div>
+    <p class="muted small">Generic task families, defined once and instantiated with concrete examples inside each panel.</p>
+    <div class="fams">
+      <div class="fam"><b>Signal quality</b><span>diagnostic adequacy, not noise level → ECG lead adequacy</span></div>
+      <div class="fam"><b>Event detection</b><span>onset/offset of clinical events → EEG seizure detection</span></div>
+      <div class="fam"><b>Representation learning</b><span>transferable embeddings → pretrain/probe protocols</span></div>
+      <div class="fam"><b>Reconstruction / synthesis</b><span>fidelity vs plausibility → 12-lead from reduced leads</span></div>
+      <div class="fam"><b>Forecasting</b><span>near-term deterioration → ICU instability</span></div>
+      <div class="fam"><b>Robustness</b><span>missing / noisy channels → dropped-lead stress test</span></div>
+      <div class="fam"><b>Clinical decision support</b><span>threshold-referenced outputs → triage</span></div>
+      <div class="fam"><b>Abstention / uncertainty</b><span>knowing when not to answer → OOD inputs</span></div>
+    </div>
+
+    <!-- Datasets -->
+    <div class="modhead" id="datasets"><span class="mnum">B4</span><h3>Datasets</h3></div>
+    <p class="muted small">Dataset cards carry clinical context as first-class metadata (illustrative entries).</p>
+    <div class="grid3" style="margin-top:1rem">
+      <div class="pcard"><h3 class="small" style="font-size:1rem">ECG-Acute-ED</h3><div class="kv"><span>Type</span><span>12-lead ECG</span></div><div class="kv"><span>Setting</span><span>Emergency dept.</span></div><div class="kv"><span>Acquisition</span><span>Acute, motion</span></div><div class="kv"><span>Labels</span><span>Reader-adjudicated</span></div><div class="kv"><span>Access</span><span>Credentialed</span></div><div class="kv"><span>Role</span><span><span class="badge review">Hidden test</span></span></div></div>
+      <div class="pcard"><h3 class="small" style="font-size:1rem">ECG-Elective-OP</h3><div class="kv"><span>Type</span><span>12-lead ECG</span></div><div class="kv"><span>Setting</span><span>Outpatient</span></div><div class="kv"><span>Acquisition</span><span>Elective, clean</span></div><div class="kv"><span>Labels</span><span>Report-derived</span></div><div class="kv"><span>Access</span><span>Open</span></div><div class="kv"><span>Role</span><span><span class="badge consensus">Train</span></span></div></div>
+      <div class="pcard"><h3 class="small" style="font-size:1rem">EEG-Scalp-Sz</h3><div class="kv"><span>Type</span><span>Scalp EEG</span></div><div class="kv"><span>Setting</span><span>Epilepsy monitoring</span></div><div class="kv"><span>Acquisition</span><span>Inpatient</span></div><div class="kv"><span>Labels</span><span>Expert annotation</span></div><div class="kv"><span>Access</span><span>Open (Zenodo)</span></div><div class="kv"><span>Role</span><span><span class="badge revised">Validation</span></span></div></div>
+    </div>
+
+    <!-- Metrics -->
+    <div class="modhead" id="metrics"><span class="mnum">B5</span><h3>Metrics</h3></div>
+    <p class="muted small">Shared scoring logic across domains, with panel-specific extensions.</p>
+    <div class="grid3" style="margin-top:1rem">
+      <div class="metric-g"><h4>Standard performance</h4><p>Task-appropriate accuracy: AUROC, sensitivity/specificity, MAE, event F1.</p></div>
+      <div class="metric-g"><h4>Clinical adequacy</h4><p>Threshold-referenced: does the output support the clinical decision it claims to?</p></div>
+      <div class="metric-g"><h4>Failure severity</h4><p>Errors weighted by clinical consequence, not average deviation.</p></div>
+      <div class="metric-g"><h4>Robustness</h4><p>Performance retention under missing / noisy / dropped channels.</p></div>
+      <div class="metric-g"><h4>Coverage / abstention</h4><p>Behaviour on OOD inputs; calibration of “I don't know”.</p></div>
+      <div class="metric-g"><h4>Panel-specific</h4><p>Extensions a domain requires (e.g. per-lead amplitude fidelity for ECG).</p></div>
+    </div>
+
+    <!-- Leaderboard -->
+    <div class="modhead" id="leaderboard"><span class="mnum">B6</span><h3>Leaderboard</h3></div>
+    <p class="muted small">Results across panels and tasks. <b>CVS</b> = clinical validity score. Figures are illustrative.</p>
+    <div class="lb-controls">
+      <select id="lbPanel"><option value="all">All panels</option><option>ECG</option><option>EEG</option></select>
+      <select id="lbTask"><option value="all">All task families</option><option>Signal quality</option><option>Event detection</option><option>Reconstruction</option></select>
+      <select id="lbSort"><option value="cvs">Sort: Clinical validity</option><option value="perf">Sort: Performance</option></select>
+    </div>
+    <div class="lb-wrap">
+      <table class="lb" id="lbTable">
+        <thead><tr><th>#</th><th>Model</th><th>Panel</th><th>Task family</th><th class="num">Performance</th><th class="num">CVS</th><th></th></tr></thead>
+        <tbody>
+          <tr data-panel="ECG" data-task="Signal quality" data-perf="0.94" data-cvs="0.88"><td class="rank">1</td><td><b>WaveFormer-XL</b></td><td>ECG</td><td>Signal quality</td><td class="num">0.94</td><td class="num"><span class="cvs hi">0.88</span></td><td><a class="small" href="#leaderboard" style="color:var(--accent)">report</a></td></tr>
+          <tr data-panel="ECG" data-task="Reconstruction" data-perf="0.96" data-cvs="0.41"><td class="rank">2</td><td><b>LeadNet-v3</b></td><td>ECG</td><td>Reconstruction</td><td class="num">0.96</td><td class="num"><span class="cvs lo">0.41</span></td><td><a class="small" href="#leaderboard" style="color:var(--accent)">report</a></td></tr>
+          <tr data-panel="EEG" data-task="Event detection" data-perf="0.89" data-cvs="0.79"><td class="rank">3</td><td><b>SzTransformer</b></td><td>EEG</td><td>Event detection</td><td class="num">0.89</td><td class="num"><span class="cvs hi">0.79</span></td><td><a class="small" href="#leaderboard" style="color:var(--accent)">report</a></td></tr>
+          <tr data-panel="ECG" data-task="Signal quality" data-perf="0.90" data-cvs="0.63"><td class="rank">4</td><td><b>BioQA-base</b></td><td>ECG</td><td>Signal quality</td><td class="num">0.90</td><td class="num"><span class="cvs mid">0.63</span></td><td><a class="small" href="#leaderboard" style="color:var(--accent)">report</a></td></tr>
+          <tr data-panel="EEG" data-task="Event detection" data-perf="0.85" data-cvs="0.72"><td class="rank">5</td><td><b>EEG-Foundation</b></td><td>EEG</td><td>Event detection</td><td class="num">0.85</td><td class="num"><span class="cvs mid">0.72</span></td><td><a class="small" href="#leaderboard" style="color:var(--accent)">report</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted" style="margin-top:.7rem">Note how <b>LeadNet-v3</b> tops raw performance (0.96) yet scores lowest on clinical validity (0.41) — the reconstruction failure the Problem section describes, made visible by the benchmark.</p>
+
+    <!-- Submit -->
+    <div class="modhead" id="submit"><span class="mnum">B7</span><h3>Submit</h3></div>
+    <p class="muted small">Submit a model or evaluation results to a panel.</p>
+    <div class="cards" style="margin-top:1rem">
+      <div class="card">
+        <h3>How it works</h3>
+        <ul class="plain small">
+          <li>Package model outputs in the required format (spec below)</li>
+          <li>Select the target panel and task family</li>
+          <li>Complete the metadata + evaluation checklist</li>
+          <li>Maintainers review; results appear on the leaderboard</li>
+        </ul>
+        <p class="small muted" style="margin:0">Required output format · metadata schema · review SLA are published in the docs.</p>
+      </div>
+      <div class="card">
+        <h3>Start a submission</h3>
+        <form id="subForm" novalidate>
+          <div class="rf-grid">
+            <div class="rf-field"><label for="sbModel">Model name</label><input id="sbModel" type="text" placeholder="e.g. WaveFormer-XL"></div>
+            <div class="rf-field"><label for="sbPanel">Panel</label><select id="sbPanel"><option>ECG</option><option>EEG</option><option>PPG / Wearable</option><option>ICU Waveform</option><option>Multimodal</option></select></div>
+            <div class="rf-field full"><label for="sbEmail">Contact email</label><input id="sbEmail" type="email" placeholder="you@lab.org"></div>
+          </div>
+          <label class="rf-check"><input type="checkbox" id="sbCheck"> Outputs follow the required format and evaluation checklist.</label>
+          <div style="margin-top:.9rem"><button type="submit" class="btn btn-primary btn-sm">Begin review</button> <span class="small muted" id="sbMsg" aria-live="polite"></span></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT / TRUST ============ -->
+<section id="paper" class="divider-band">
+  <div class="wrap">
+    <p class="eyebrow">About</p>
+    <div class="trust">
+      <div><h4>Convening group</h4><p class="ph">To be announced at launch</p></div>
+      <div><h4>Steering committee</h4><p class="ph">Clinical + ML co-chairs — forming now</p></div>
+      <div><h4>Position paper</h4><p>The argument in full, with references. <a href="#top" style="color:var(--accent)">Preprint in preparation →</a></p></div>
+    </div>
+    <p class="small muted" style="margin-top:1.4rem">Existing frameworks such as <a href="https://epilepsybenchmarks.com/framework/" style="color:var(--accent)">SzCORE / epilepsybenchmarks.com</a> join as federated panels and keep their own governance.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-inner">
+    <span>© 2026 BioSIGNAL-AI · A clinically grounded evaluation network</span>
+    <span><a href="#top">Back to top</a> · <a href="mailto:hello@biosignal-ai.org">Contact</a></span>
+  </div>
+</footer>
+<a class="demo-badge" href="#top">● Demo</a>
+
+<script>
+  const NS="http://www.w3.org/2000/svg";
+  const X0=46,X1=280,YB=200,YT=30;
+  const ts=[0.06,0.12,0.18,0.23,0.30,0.36,0.41,0.47,0.53,0.58,0.64,0.70,0.75,0.81,0.86,0.90,0.94,0.33];
+  const jit=[-0.03,0.04,-0.02,0.05,-0.04,0.02,0.03,-0.05,0.04,-0.02,0.05,-0.03,0.02,-0.04,0.03,-0.02,0.04,0.05];
+  function place(id,mode){
+    const g=document.getElementById(id); if(!g)return;
+    ts.forEach((t,i)=>{
+      const cx=X0+t*(X1-X0); let rf;
+      if(mode==='good'){ rf=Math.min(0.98,Math.max(0.02,t+jit[i]*0.9)); }
+      else{ rf=0.5+(t-0.5)*0.06+jit[i]*1.2; rf=Math.min(0.9,Math.max(0.12,rf)); }
+      const cy=YB-rf*(YB-YT);
+      const c=document.createElementNS(NS,'circle');
+      c.setAttribute('cx',cx.toFixed(1)); c.setAttribute('cy',cy.toFixed(1));
+      c.setAttribute('r','4.5'); c.setAttribute('fill-opacity','0.82');
+      g.appendChild(c);
+    });
+  }
+  place('ptsGood','good'); place('ptsBad','bad');
+
+  // Principle status filter
+  (function(){
+    const bar=document.getElementById('pfilter'); if(!bar)return;
+    const chips=bar.querySelectorAll('.chip');
+    chips.forEach(c=>c.addEventListener('click',()=>{
+      chips.forEach(x=>x.setAttribute('aria-pressed','false'));
+      c.setAttribute('aria-pressed','true');
+      const st=c.dataset.st;
+      document.querySelectorAll('.principle').forEach(p=>{
+        p.style.display = (st==='all'||p.dataset.st===st)?'':'none';
+      });
+      document.querySelectorAll('.ptopic').forEach(t=>{
+        const any=[...t.querySelectorAll('.principle')].some(p=>p.style.display!=='none');
+        t.style.display=any?'':'none';
+      });
+    }));
+  })();
+
+  // Delphi rating widget
+  (function(){
+    const lk=document.getElementById('likert'); if(!lk)return;
+    const btns=lk.querySelectorAll('button'); let val=null;
+    btns.forEach(b=>b.addEventListener('click',()=>{
+      btns.forEach(x=>x.setAttribute('aria-pressed','false'));
+      b.setAttribute('aria-pressed','true'); val=b.textContent;
+    }));
+    document.getElementById('sSubmit').addEventListener('click',()=>{
+      const m=document.getElementById('sMsg');
+      if(!val){ m.style.color='var(--critical)'; m.textContent='Pick a score 1–9.'; return; }
+      m.style.color='var(--good)'; m.textContent='Rating '+val+' recorded (demo).';
+      document.querySelector('.prog span').style.width='45%';
+    });
+  })();
+
+  // Download demo
+  (function(){
+    const d=document.getElementById('dl'); if(!d)return;
+    d.addEventListener('click',(e)=>{e.preventDefault(); document.getElementById('dlMsg').textContent=' Demo — checklist export wired in production.';});
+  })();
+
+  // Registration form
+  (function(){
+    const roles=document.querySelectorAll('#regForm .chip'); let role='Clinician';
+    roles.forEach(c=>c.addEventListener('click',()=>{roles.forEach(x=>x.setAttribute('aria-pressed','false'));c.setAttribute('aria-pressed','true');role=c.dataset.role;}));
+    const form=document.getElementById('regForm'), err=document.getElementById('rfErr');
+    form.addEventListener('submit',(e)=>{
+      e.preventDefault();
+      const email=document.getElementById('rfEmail').value.trim();
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){err.textContent='Please enter a valid email address.';return;}
+      if(!document.getElementById('rfConsent').checked){err.textContent='Please confirm willingness to take part in the rounds.';return;}
+      err.textContent='';
+      console.log('[demo] delphi registration:',{role,name:document.getElementById('rfName').value,email,affiliation:document.getElementById('rfAff').value,expertise:document.getElementById('rfExp').value});
+      document.getElementById('rfThanksMsg').textContent="You're registered — role: "+role+".";
+      form.hidden=true; document.getElementById('rfThanks').hidden=false;
+    });
+    document.querySelectorAll('a[href="#join"]').forEach(a=>a.addEventListener('click',()=>{
+      const r=/research/i.test(a.textContent)?'AI researcher':'Clinician';
+      roles.forEach(x=>x.setAttribute('aria-pressed',x.dataset.role===r?'true':'false')); role=r;
+    }));
+  })();
+
+  // Leaderboard filter + sort
+  (function(){
+    const tb=document.getElementById('lbTable'); if(!tb)return;
+    const body=tb.querySelector('tbody');
+    const rows=[...body.querySelectorAll('tr')];
+    const fp=document.getElementById('lbPanel'),ft=document.getElementById('lbTask'),fs=document.getElementById('lbSort');
+    function apply(){
+      let vis=rows.filter(r=>(fp.value==='all'||r.dataset.panel===fp.value)&&(ft.value==='all'||r.dataset.task===ft.value));
+      const key=fs.value==='perf'?'perf':'cvs';
+      vis.sort((a,b)=>parseFloat(b.dataset[key])-parseFloat(a.dataset[key]));
+      rows.forEach(r=>r.style.display='none');
+      vis.forEach((r,i)=>{r.style.display='';r.querySelector('.rank').textContent=i+1;body.appendChild(r);});
+    }
+    [fp,ft,fs].forEach(el=>el.addEventListener('change',apply)); apply();
+  })();
+
+  // Submit demo
+  (function(){
+    const f=document.getElementById('subForm'); if(!f)return;
+    f.addEventListener('submit',(e)=>{
+      e.preventDefault(); const m=document.getElementById('sbMsg');
+      const email=document.getElementById('sbEmail').value.trim();
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){m.style.color='var(--critical)';m.textContent='Valid email needed.';return;}
+      if(!document.getElementById('sbCheck').checked){m.style.color='var(--critical)';m.textContent='Confirm the checklist.';return;}
+      m.style.color='var(--good)'; m.textContent='Submission received (demo).';
+    });
+  })();
+</script>
+</body>
+</html>
