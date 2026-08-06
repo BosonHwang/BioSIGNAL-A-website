@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BioSIGNAL-AI — A clinically grounded evaluation network for biosignal AI</title>
-<meta name="description" content="An open Delphi consensus process and a clinically grounded benchmark platform for evaluating biosignal AI.">
-<meta property="og:title" content="BioSIGNAL-AI — A clinically grounded evaluation network for biosignal AI">
-<meta property="og:description" content="An open Delphi consensus process and a clinically grounded benchmark platform for evaluating biosignal AI.">
+<title>The Delphi — BioSIGNAL-AI</title>
+<meta name="description" content="Building expert consensus on how biosignal AI should be evaluated: candidate principles, structured rating rounds, and consensus results.">
+<meta property="og:title" content="The Delphi — BioSIGNAL-AI">
+<meta property="og:description" content="Building expert consensus on how biosignal AI should be evaluated: candidate principles, structured rating rounds, and consensus results.">
 <meta property="og:type" content="website">
 <style>
   :root{
@@ -228,9 +228,9 @@
   <div class="wrap nav-inner">
     <a class="brand" href="index.html"><span class="dot"></span>BioSIGNAL-AI</a>
     <nav class="nav-links">
-      <a href="index.html" class="active">Overview</a>
+      <a href="index.html" class="">Overview</a>
       <a href="index.html#problem">Problem</a>
-      <a href="delphi.html" class="">Delphi</a>
+      <a href="delphi.html" class="active">Delphi</a>
       <a href="benchmark.html" class="">Benchmark</a>
       <a href="index.html#about">About</a>
       <a class="btn btn-primary" href="delphi.html#join">Join the Delphi</a>
@@ -238,99 +238,117 @@
   </div>
 </header>
 
-<section class="hero">
+<section class="pagehero">
   <div class="wrap">
-    <p class="eyebrow">A clinically grounded evaluation network for biosignal AI</p>
-    <h1>Deciding what biosignal AI should be measured&nbsp;against —<br>and building the benchmark to measure&nbsp;it.</h1>
-    <p class="lead">Biosignal AI is benchmarked on what has been recorded, not on what a clinician needs to know. BioSIGNAL-AI closes that gap in two connected parts: an open <b>Delphi consensus</b> on evaluation principles, feeding a clinically grounded <b>benchmark platform</b>.</p>
-    <div class="hero-cta">
-      <a class="btn btn-primary" href="delphi.html#join">Join the Delphi →</a>
-      <a class="btn btn-ghost" href="benchmark.html">Explore the benchmark</a>
-    </div>
-    <div class="arms">
-      <a class="arm" href="delphi.html" style="text-decoration:none">
-        <span class="k">Part A · The process</span>
-        <h3>The Delphi →</h3>
-        <p>Clinicians, AI researchers, and benchmark experts converge — over structured survey rounds — on the principles that define a clinically meaningful evaluation.</p>
-        <div class="steps">Candidate Principles → Rounds → Consensus Results</div>
-      </a>
-      <a class="arm" href="benchmark.html" style="text-decoration:none">
-        <span class="k">Part B · The platform</span>
-        <h3>The Benchmark →</h3>
-        <p>Consensus principles become concrete evaluation rules, applied across biosignal domains through modality panels, shared metrics, and a public leaderboard.</p>
-        <div class="steps">Framework → Panels → Tasks → Datasets → Metrics → Leaderboard</div>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section id="problem" class="divider-band">
-  <div class="wrap">
-    <p class="eyebrow">The problem</p>
-    <h2>When tasks are inherited from data, benchmarks track what has been measured — not what needs to be.</h2>
-    <p class="lead" style="max-width:62ch">A selection effect operates at the level of the whole field. It is nobody's individual error, and current evaluation practice cannot detect it, because test sets are drawn from the same filtered pool as training data. That is why the fix has to be consensus, not another dataset.</p>
-    <div class="beats">
-      <div class="beat"><div class="n">01</div><h3>Evaluation is disconnected from clinical reality</h3><p>Automated quality indices are validated against noise estimates and beat-detection agreement — not against whether a reader would call the trace diagnostic.</p></div>
-      <div class="beat"><div class="n">02</div><h3>Data became the benchmark</h3><p>Public corpora come from elective, ambulatory settings. Signal quality matters most in acute presentations — exactly where the least public data exists.</p></div>
-      <div class="beat"><div class="n">03</div><h3>The cost is silent degradation</h3><p>When a development-time filter is dropped at inference, the model returns an output for every input — including those it was never trained to handle — with no signal.</p></div>
-    </div>
-    <figure class="chart">
-      <div class="chart-head">
-        <span class="chart-title">12-lead reconstruction: looks solved, isn't</span>
-        <span class="chart-note">Schematic of the reported effect (Presacan et&nbsp;al.). Illustrative points; annotated R² are published values.</span>
-      </div>
-      <div class="panels">
-        <figure class="panel" style="margin:0">
-          <svg class="plot" viewBox="0 0 300 240" role="img" aria-label="Reconstructed QT interval tracks true QT, R-squared 0.91.">
-            <line class="gl" x1="46" y1="30" x2="280" y2="30"/><line class="gl" x1="46" y1="90" x2="280" y2="90"/><line class="gl" x1="46" y1="150" x2="280" y2="150"/>
-            <line class="ax" x1="46" y1="30" x2="46" y2="200"/><line class="ax" x1="46" y1="200" x2="280" y2="200"/>
-            <line class="ident" x1="46" y1="200" x2="280" y2="30"/>
-            <g class="pt-good" id="ptsGood"></g>
-            <text class="axlab" x="163" y="228" text-anchor="middle">True QT interval</text>
-            <text class="axlab" x="16" y="118" text-anchor="middle" transform="rotate(-90 16 118)">Reconstructed</text>
-          </svg>
-          <figcaption>Temporal features recovered — QT interval <span class="r2 good">R²&nbsp;=&nbsp;0.91</span></figcaption>
-        </figure>
-        <figure class="panel" style="margin:0">
-          <svg class="plot" viewBox="0 0 300 240" role="img" aria-label="Reconstructed V3 R-peak amplitude collapses to the population mean, R-squared 0.05.">
-            <line class="gl" x1="46" y1="30" x2="280" y2="30"/><line class="gl" x1="46" y1="90" x2="280" y2="90"/><line class="gl" x1="46" y1="150" x2="280" y2="150"/>
-            <line class="ax" x1="46" y1="30" x2="46" y2="200"/><line class="ax" x1="46" y1="200" x2="280" y2="200"/>
-            <line class="ident" x1="46" y1="200" x2="280" y2="30"/>
-            <line class="meanl" x1="46" y1="115" x2="280" y2="115"/>
-            <text class="axlab" x="274" y="110" text-anchor="end" fill="var(--critical)">population mean</text>
-            <g class="pt-bad" id="ptsBad"></g>
-            <text class="axlab" x="163" y="228" text-anchor="middle">True V3 R-peak amplitude</text>
-            <text class="axlab" x="16" y="118" text-anchor="middle" transform="rotate(-90 16 118)">Reconstructed</text>
-          </svg>
-          <figcaption>Precordial amplitude collapsed — V3 R-peak <span class="r2 bad">R²&nbsp;=&nbsp;0.05</span></figcaption>
-        </figure>
-      </div>
-      <div class="callout">Reconstructions were <b>visually indistinguishable</b> from real recordings, and mean-absolute-error rewarded exactly this mean-guessing. As the authors note: <b>an infarct oriented orthogonally to the input lead would be reconstructed as normal.</b></div>
-    </figure>
+    <p class="eyebrow">Part A · The Delphi</p>
+    <h1>Building consensus on how biosignal AI should be evaluated.</h1>
+    <p class="lead">A structured, multi-round process in which experts review, rate, and refine candidate evaluation principles until they reach consensus. The agreed principles become the benchmark's rules.</p>
+    <nav class="subnav">
+      <a href="#principles">Candidate Principles</a>
+      <a href="#rounds">Delphi Rounds</a>
+      <a href="#results">Consensus Results</a>
+      <a href="#join">Join</a>
+    </nav>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <p class="eyebrow">How it fits together</p>
-    <h2>Two parts, one loop.</h2>
-    <p class="lead">The Delphi decides <i>what</i> to measure; the benchmark measures it — and results feed the next round of consensus.</p>
-    <div class="cards" style="margin-top:1.6rem">
-      <a class="card" href="delphi.html" style="text-decoration:none"><span class="badge consensus" style="margin-bottom:.6rem">Part A</span><h3>The Delphi →</h3><p class="small muted">Candidate principles, structured rating rounds, and a published consensus checklist. This is where the evaluation rules are agreed.</p></a>
-      <a class="card" href="benchmark.html" style="text-decoration:none"><span class="badge review" style="margin-bottom:.6rem">Part B</span><h3>The Benchmark →</h3><p class="small muted">Framework, modality panels, tasks, datasets, metrics, and a public leaderboard with a clinical-validity score. This is where models are evaluated.</p></a>
+    <div class="modhead" id="principles"><span class="mnum">A1</span><h3>Candidate Principles</h3></div>
+    <p class="muted small">Draft consensus statements grouped by theme. Experts preview them here before each round. Filter by status:</p>
+    <div class="filterbar" id="pfilter">
+      <button class="chip" data-st="all" aria-pressed="true">All</button>
+      <button class="chip" data-st="draft" aria-pressed="false">Draft</button>
+      <button class="chip" data-st="review" aria-pressed="false">Under review</button>
+      <button class="chip" data-st="revised" aria-pressed="false">Revised</button>
+      <button class="chip" data-st="consensus" aria-pressed="false">Consensus reached</button>
     </div>
+    <div class="ptopic"><h4>Clinical realism</h4>
+      <div class="principle" data-st="consensus"><span class="pid">CR-1</span><span class="ptxt">Evaluation tasks must be defined by clinical decisions, not by what labels a dataset happens to contain.<small>Quality thresholds reflect reader-level diagnostic adequacy.</small></span><span class="badge consensus">Consensus reached</span></div>
+      <div class="principle" data-st="review"><span class="pid">CR-2</span><span class="ptxt">Models must be evaluated on acute-setting recordings, not only elective/ambulatory data.</span><span class="badge review">Under review</span></div>
+    </div>
+    <div class="ptopic"><h4>Datasets</h4>
+      <div class="principle" data-st="revised"><span class="pid">DS-1</span><span class="ptxt">Every benchmark dataset declares its acquisition context and clinical setting as first-class metadata.</span><span class="badge revised">Revised</span></div>
+      <div class="principle" data-st="draft"><span class="pid">DS-2</span><span class="ptxt">A hidden test set drawn from a different site/setting than training is required for headline claims.</span><span class="badge draft">Draft</span></div>
+    </div>
+    <div class="ptopic"><h4>Metrics</h4>
+      <div class="principle" data-st="consensus"><span class="pid">MT-1</span><span class="ptxt">Aggregate error metrics must be reported alongside a clinical-adequacy metric tied to a decision threshold.<small>Mean-absolute-error alone rewards mean-guessing.</small></span><span class="badge consensus">Consensus reached</span></div>
+      <div class="principle" data-st="review"><span class="pid">MT-2</span><span class="ptxt">Failure severity is scored by clinical consequence, not by average deviation.</span><span class="badge review">Under review</span></div>
+    </div>
+    <div class="ptopic"><h4>Reporting</h4>
+      <div class="principle" data-st="draft"><span class="pid">RP-1</span><span class="ptxt">Any input-quality filter used in development must be disclosed and applied — or explicitly removed — at inference.</span><span class="badge draft">Draft</span></div>
+      <div class="principle" data-st="revised"><span class="pid">RP-2</span><span class="ptxt">Abstention behaviour on out-of-distribution inputs is reported as a first-class result.</span><span class="badge revised">Revised</span></div>
+    </div>
+
+    <div class="modhead" id="rounds"><span class="mnum">A2</span><h3>Delphi Rounds</h3></div>
+    <p class="muted small">The consensus process runs in structured rounds with controlled feedback between them.</p>
+    <div class="rounds-tl">
+      <div class="rt active"><div class="d"></div><span class="w">NOW OPEN</span><h4>Round 1 · Scope</h4><p>Nominate & rate which principles belong in scope.</p></div>
+      <div class="rt"><div class="d"></div><span class="w">NEXT</span><h4>Round 2 · Criteria</h4><p>Refine wording of adequacy criteria.</p></div>
+      <div class="rt"><div class="d"></div><span class="w">THEN</span><h4>Round 3 · Protocol</h4><p>Rate final protocol & metrics.</p></div>
+      <div class="rt"><div class="d"></div><span class="w">OUTCOME</span><h4>Statement</h4><p>Published consensus checklist.</p></div>
+    </div>
+    <div class="survey" id="survey">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:.4rem">
+        <b>Round 1 · rate this principle</b><span class="small muted">Item MT-2 · 4 of 11 completed</span>
+      </div>
+      <p style="margin:.7rem 0 .2rem">“Failure severity is scored by clinical consequence, not by average deviation.”</p>
+      <div class="prev">Controlled feedback — Round&nbsp;0 group median: <b>7 / 9</b> · your previous rating: <b>6</b> · 22% left a comment on wording.</div>
+      <div class="likert" id="likert" role="group" aria-label="Agreement 1 to 9">
+        <button type="button">1</button><button type="button">2</button><button type="button">3</button><button type="button">4</button><button type="button">5</button><button type="button">6</button><button type="button">7</button><button type="button">8</button><button type="button">9</button>
+      </div>
+      <div class="likert-scale" style="margin-bottom:.9rem"><span>Strongly disagree</span><span>Strongly agree</span></div>
+      <textarea id="scomment" placeholder="Optional comment on wording or scope…"></textarea>
+      <div style="margin-top:.9rem; display:flex; align-items:center; gap:1rem; flex-wrap:wrap">
+        <button class="btn btn-primary btn-sm" id="sSubmit">Submit rating</button>
+        <span class="small muted" id="sMsg" aria-live="polite"></span>
+      </div>
+      <div class="prog"><span></span></div>
+    </div>
+
+    <div class="modhead" id="results"><span class="mnum">A3</span><h3>Consensus Results</h3></div>
+    <p class="muted small">Published after each completed round (figures below are illustrative).</p>
+    <div class="tiles">
+      <div class="tile"><div class="v">64%</div><div class="l">of candidate principles reached consensus (≥ 80% agreement)</div></div>
+      <div class="tile"><div class="v">7.8</div><div class="l">median agreement score across all items (1–9)</div></div>
+      <div class="tile"><div class="v">3</div><div class="l">items revised & carried to the next round</div></div>
+    </div>
+    <div class="cards" style="margin-top:.4rem">
+      <div class="card"><span class="badge consensus" style="margin-bottom:.6rem">Consensus reached</span><ul class="plain"><li>CR-1 · Tasks defined by clinical decisions</li><li>MT-1 · Report clinical-adequacy metric alongside error</li></ul></div>
+      <div class="card"><span class="badge review" style="margin-bottom:.6rem">Unresolved / carried forward</span><ul class="plain"><li>CR-2 · Acute-setting evaluation requirement</li><li>MT-2 · Severity scoring definition</li></ul></div>
+    </div>
+    <div style="margin-top:1.2rem"><a class="btn btn-ghost btn-sm" href="#top" id="dl">↓ Download consensus checklist (PDF)</a> <span class="small muted" id="dlMsg"></span></div>
   </div>
 </section>
 
-<section id="about" class="divider-band">
+<section id="join" class="divider-band">
   <div class="wrap">
-    <p class="eyebrow">About</p>
-    <div class="trust">
-      <div><h4>Convening group</h4><p class="ph">To be announced at launch</p></div>
-      <div><h4>Steering committee</h4><p class="ph">Clinical + ML co-chairs — forming now</p></div>
-      <div><h4>Position paper</h4><p>The argument in full, with references. <a href="#top" style="color:var(--accent)">Preprint in preparation →</a></p></div>
+    <p class="eyebrow">Join the Delphi</p>
+    <h2>Help decide what biosignal AI should be measured against.</h2>
+    <p class="lead" style="max-width:56ch">Round 1 is open. Register to receive the round-1 questionnaire and schedule. Open to clinicians, AI researchers, and benchmark/data experts.</p>
+    <div class="formbox" style="max-width:600px; margin-top:1.4rem">
+      <form id="regForm" novalidate>
+        <div class="rf-roles" role="group" aria-label="Your role">
+          <button type="button" class="chip" data-role="Clinician" aria-pressed="true">Clinician</button>
+          <button type="button" class="chip" data-role="AI researcher" aria-pressed="false">AI researcher</button>
+          <button type="button" class="chip" data-role="Benchmark / data expert" aria-pressed="false">Benchmark / data expert</button>
+        </div>
+        <div class="rf-grid">
+          <div class="rf-field"><label for="rfName">Name</label><input id="rfName" type="text" autocomplete="name" placeholder="Dr. Jane Doe"></div>
+          <div class="rf-field"><label for="rfAff">Affiliation</label><input id="rfAff" type="text" autocomplete="organization" placeholder="Institution / hospital"></div>
+          <div class="rf-field"><label for="rfEmail">Email</label><input id="rfEmail" type="email" autocomplete="email" placeholder="you@hospital.org"></div>
+          <div class="rf-field"><label for="rfExp">Expertise area</label><input id="rfExp" type="text" placeholder="e.g. cardiology, EEG, ML"></div>
+        </div>
+        <label class="rf-check"><input type="checkbox" id="rfConsent"> I'm willing to take part in 2–3 short survey rounds over the coming months.</label>
+        <div style="margin-top:1rem"><button type="submit" class="btn btn-primary">Register interest</button></div>
+        <div class="rf-err" id="rfErr" aria-live="polite"></div>
+      </form>
+      <div class="rf-thanks" id="rfThanks" hidden>
+        <div class="check">✓</div>
+        <h3 id="rfThanksMsg" style="margin-bottom:.4rem">You're registered.</h3>
+        <p class="muted small" style="margin:0">Next step: you'll receive the Round&nbsp;1 questionnaire and schedule by email.<br>Demo only — nothing was sent. In production this posts to your Delphi intake (Qualtrics / REDCap / Google Form).</p>
+      </div>
     </div>
-    <p class="small muted" style="margin-top:1.4rem">Existing frameworks such as <a href="https://epilepsybenchmarks.com/framework/" style="color:var(--accent)">SzCORE / epilepsybenchmarks.com</a> join as federated panels and keep their own governance.</p>
   </div>
 </section>
 
@@ -342,24 +360,63 @@
 </footer>
 <a class="demo-badge" href="#top">● Demo</a>
 <script>
-  const NS="http://www.w3.org/2000/svg";
-  const X0=46,X1=280,YB=200,YT=30;
-  const ts=[0.06,0.12,0.18,0.23,0.30,0.36,0.41,0.47,0.53,0.58,0.64,0.70,0.75,0.81,0.86,0.90,0.94,0.33];
-  const jit=[-0.03,0.04,-0.02,0.05,-0.04,0.02,0.03,-0.05,0.04,-0.02,0.05,-0.03,0.02,-0.04,0.03,-0.02,0.04,0.05];
-  function place(id,mode){
-    const g=document.getElementById(id); if(!g)return;
-    ts.forEach((t,i)=>{
-      const cx=X0+t*(X1-X0); let rf;
-      if(mode==='good'){ rf=Math.min(0.98,Math.max(0.02,t+jit[i]*0.9)); }
-      else{ rf=0.5+(t-0.5)*0.06+jit[i]*1.2; rf=Math.min(0.9,Math.max(0.12,rf)); }
-      const cy=YB-rf*(YB-YT);
-      const c=document.createElementNS(NS,'circle');
-      c.setAttribute('cx',cx.toFixed(1)); c.setAttribute('cy',cy.toFixed(1));
-      c.setAttribute('r','4.5'); c.setAttribute('fill-opacity','0.82');
-      g.appendChild(c);
+  // Principle status filter
+  (function(){
+    const bar=document.getElementById('pfilter'); if(!bar)return;
+    const chips=bar.querySelectorAll('.chip');
+    chips.forEach(c=>c.addEventListener('click',()=>{
+      chips.forEach(x=>x.setAttribute('aria-pressed','false'));
+      c.setAttribute('aria-pressed','true');
+      const st=c.dataset.st;
+      document.querySelectorAll('.principle').forEach(p=>{
+        p.style.display=(st==='all'||p.dataset.st===st)?'':'none';
+      });
+      document.querySelectorAll('.ptopic').forEach(t=>{
+        const any=[...t.querySelectorAll('.principle')].some(p=>p.style.display!=='none');
+        t.style.display=any?'':'none';
+      });
+    }));
+  })();
+
+  // Delphi rating widget
+  (function(){
+    const lk=document.getElementById('likert'); if(!lk)return;
+    const btns=lk.querySelectorAll('button'); let val=null;
+    btns.forEach(b=>b.addEventListener('click',()=>{
+      btns.forEach(x=>x.setAttribute('aria-pressed','false'));
+      b.setAttribute('aria-pressed','true'); val=b.textContent;
+    }));
+    document.getElementById('sSubmit').addEventListener('click',()=>{
+      const m=document.getElementById('sMsg');
+      if(!val){ m.style.color='var(--critical)'; m.textContent='Pick a score 1-9.'; return; }
+      m.style.color='var(--good)'; m.textContent='Rating '+val+' recorded (demo).';
+      document.querySelector('.prog span').style.width='45%';
     });
-  }
-  place('ptsGood','good'); place('ptsBad','bad');
+  })();
+
+  // Download demo
+  (function(){
+    const d=document.getElementById('dl'); if(!d)return;
+    d.addEventListener('click',(e)=>{e.preventDefault(); document.getElementById('dlMsg').textContent=' Demo - checklist export wired in production.';});
+  })();
+
+  // Registration form
+  (function(){
+    const roles=document.querySelectorAll('#regForm .chip'); if(!roles.length)return;
+    let role='Clinician';
+    roles.forEach(c=>c.addEventListener('click',()=>{roles.forEach(x=>x.setAttribute('aria-pressed','false'));c.setAttribute('aria-pressed','true');role=c.dataset.role;}));
+    const form=document.getElementById('regForm'), err=document.getElementById('rfErr');
+    form.addEventListener('submit',(e)=>{
+      e.preventDefault();
+      const email=document.getElementById('rfEmail').value.trim();
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){err.textContent='Please enter a valid email address.';return;}
+      if(!document.getElementById('rfConsent').checked){err.textContent='Please confirm willingness to take part in the rounds.';return;}
+      err.textContent='';
+      console.log('[demo] delphi registration:',{role,name:document.getElementById('rfName').value,email,affiliation:document.getElementById('rfAff').value,expertise:document.getElementById('rfExp').value});
+      document.getElementById('rfThanksMsg').textContent="You're registered - role: "+role+".";
+      form.hidden=true; document.getElementById('rfThanks').hidden=false;
+    });
+  })();
 
 </script>
 </body>

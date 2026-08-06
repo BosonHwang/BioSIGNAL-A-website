@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BioSIGNAL-AI — A clinically grounded evaluation network for biosignal AI</title>
-<meta name="description" content="An open Delphi consensus process and a clinically grounded benchmark platform for evaluating biosignal AI.">
-<meta property="og:title" content="BioSIGNAL-AI — A clinically grounded evaluation network for biosignal AI">
-<meta property="og:description" content="An open Delphi consensus process and a clinically grounded benchmark platform for evaluating biosignal AI.">
+<title>The Benchmark — BioSIGNAL-AI</title>
+<meta name="description" content="A clinically grounded benchmark platform: framework, evaluation panels, tasks, datasets, metrics, and a public leaderboard.">
+<meta property="og:title" content="The Benchmark — BioSIGNAL-AI">
+<meta property="og:description" content="A clinically grounded benchmark platform: framework, evaluation panels, tasks, datasets, metrics, and a public leaderboard.">
 <meta property="og:type" content="website">
 <style>
   :root{
@@ -228,109 +228,118 @@
   <div class="wrap nav-inner">
     <a class="brand" href="index.html"><span class="dot"></span>BioSIGNAL-AI</a>
     <nav class="nav-links">
-      <a href="index.html" class="active">Overview</a>
+      <a href="index.html" class="">Overview</a>
       <a href="index.html#problem">Problem</a>
       <a href="delphi.html" class="">Delphi</a>
-      <a href="benchmark.html" class="">Benchmark</a>
+      <a href="benchmark.html" class="active">Benchmark</a>
       <a href="index.html#about">About</a>
       <a class="btn btn-primary" href="delphi.html#join">Join the Delphi</a>
     </nav>
   </div>
 </header>
 
-<section class="hero">
+<section class="pagehero">
   <div class="wrap">
-    <p class="eyebrow">A clinically grounded evaluation network for biosignal AI</p>
-    <h1>Deciding what biosignal AI should be measured&nbsp;against —<br>and building the benchmark to measure&nbsp;it.</h1>
-    <p class="lead">Biosignal AI is benchmarked on what has been recorded, not on what a clinician needs to know. BioSIGNAL-AI closes that gap in two connected parts: an open <b>Delphi consensus</b> on evaluation principles, feeding a clinically grounded <b>benchmark platform</b>.</p>
-    <div class="hero-cta">
-      <a class="btn btn-primary" href="delphi.html#join">Join the Delphi →</a>
-      <a class="btn btn-ghost" href="benchmark.html">Explore the benchmark</a>
-    </div>
-    <div class="arms">
-      <a class="arm" href="delphi.html" style="text-decoration:none">
-        <span class="k">Part A · The process</span>
-        <h3>The Delphi →</h3>
-        <p>Clinicians, AI researchers, and benchmark experts converge — over structured survey rounds — on the principles that define a clinically meaningful evaluation.</p>
-        <div class="steps">Candidate Principles → Rounds → Consensus Results</div>
-      </a>
-      <a class="arm" href="benchmark.html" style="text-decoration:none">
-        <span class="k">Part B · The platform</span>
-        <h3>The Benchmark →</h3>
-        <p>Consensus principles become concrete evaluation rules, applied across biosignal domains through modality panels, shared metrics, and a public leaderboard.</p>
-        <div class="steps">Framework → Panels → Tasks → Datasets → Metrics → Leaderboard</div>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section id="problem" class="divider-band">
-  <div class="wrap">
-    <p class="eyebrow">The problem</p>
-    <h2>When tasks are inherited from data, benchmarks track what has been measured — not what needs to be.</h2>
-    <p class="lead" style="max-width:62ch">A selection effect operates at the level of the whole field. It is nobody's individual error, and current evaluation practice cannot detect it, because test sets are drawn from the same filtered pool as training data. That is why the fix has to be consensus, not another dataset.</p>
-    <div class="beats">
-      <div class="beat"><div class="n">01</div><h3>Evaluation is disconnected from clinical reality</h3><p>Automated quality indices are validated against noise estimates and beat-detection agreement — not against whether a reader would call the trace diagnostic.</p></div>
-      <div class="beat"><div class="n">02</div><h3>Data became the benchmark</h3><p>Public corpora come from elective, ambulatory settings. Signal quality matters most in acute presentations — exactly where the least public data exists.</p></div>
-      <div class="beat"><div class="n">03</div><h3>The cost is silent degradation</h3><p>When a development-time filter is dropped at inference, the model returns an output for every input — including those it was never trained to handle — with no signal.</p></div>
-    </div>
-    <figure class="chart">
-      <div class="chart-head">
-        <span class="chart-title">12-lead reconstruction: looks solved, isn't</span>
-        <span class="chart-note">Schematic of the reported effect (Presacan et&nbsp;al.). Illustrative points; annotated R² are published values.</span>
-      </div>
-      <div class="panels">
-        <figure class="panel" style="margin:0">
-          <svg class="plot" viewBox="0 0 300 240" role="img" aria-label="Reconstructed QT interval tracks true QT, R-squared 0.91.">
-            <line class="gl" x1="46" y1="30" x2="280" y2="30"/><line class="gl" x1="46" y1="90" x2="280" y2="90"/><line class="gl" x1="46" y1="150" x2="280" y2="150"/>
-            <line class="ax" x1="46" y1="30" x2="46" y2="200"/><line class="ax" x1="46" y1="200" x2="280" y2="200"/>
-            <line class="ident" x1="46" y1="200" x2="280" y2="30"/>
-            <g class="pt-good" id="ptsGood"></g>
-            <text class="axlab" x="163" y="228" text-anchor="middle">True QT interval</text>
-            <text class="axlab" x="16" y="118" text-anchor="middle" transform="rotate(-90 16 118)">Reconstructed</text>
-          </svg>
-          <figcaption>Temporal features recovered — QT interval <span class="r2 good">R²&nbsp;=&nbsp;0.91</span></figcaption>
-        </figure>
-        <figure class="panel" style="margin:0">
-          <svg class="plot" viewBox="0 0 300 240" role="img" aria-label="Reconstructed V3 R-peak amplitude collapses to the population mean, R-squared 0.05.">
-            <line class="gl" x1="46" y1="30" x2="280" y2="30"/><line class="gl" x1="46" y1="90" x2="280" y2="90"/><line class="gl" x1="46" y1="150" x2="280" y2="150"/>
-            <line class="ax" x1="46" y1="30" x2="46" y2="200"/><line class="ax" x1="46" y1="200" x2="280" y2="200"/>
-            <line class="ident" x1="46" y1="200" x2="280" y2="30"/>
-            <line class="meanl" x1="46" y1="115" x2="280" y2="115"/>
-            <text class="axlab" x="274" y="110" text-anchor="end" fill="var(--critical)">population mean</text>
-            <g class="pt-bad" id="ptsBad"></g>
-            <text class="axlab" x="163" y="228" text-anchor="middle">True V3 R-peak amplitude</text>
-            <text class="axlab" x="16" y="118" text-anchor="middle" transform="rotate(-90 16 118)">Reconstructed</text>
-          </svg>
-          <figcaption>Precordial amplitude collapsed — V3 R-peak <span class="r2 bad">R²&nbsp;=&nbsp;0.05</span></figcaption>
-        </figure>
-      </div>
-      <div class="callout">Reconstructions were <b>visually indistinguishable</b> from real recordings, and mean-absolute-error rewarded exactly this mean-guessing. As the authors note: <b>an infarct oriented orthogonally to the input lead would be reconstructed as normal.</b></div>
-    </figure>
+    <p class="eyebrow">Part B · The Benchmark</p>
+    <h1>A clinically grounded benchmark platform for biosignal AI.</h1>
+    <p class="lead">Consensus principles become concrete, modality-agnostic evaluation rules — instantiated in domain panels, shared metrics, and a public leaderboard. Modality-specific detail lives in the panels, never in the core.</p>
+    <nav class="subnav">
+      <a href="#framework">Framework</a><a href="#panels">Evaluation Panels</a><a href="#tasks">Tasks</a><a href="#datasets">Datasets</a><a href="#metrics">Metrics</a><a href="#leaderboard">Leaderboard</a><a href="#submit">Submit</a>
+    </nav>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <p class="eyebrow">How it fits together</p>
-    <h2>Two parts, one loop.</h2>
-    <p class="lead">The Delphi decides <i>what</i> to measure; the benchmark measures it — and results feed the next round of consensus.</p>
-    <div class="cards" style="margin-top:1.6rem">
-      <a class="card" href="delphi.html" style="text-decoration:none"><span class="badge consensus" style="margin-bottom:.6rem">Part A</span><h3>The Delphi →</h3><p class="small muted">Candidate principles, structured rating rounds, and a published consensus checklist. This is where the evaluation rules are agreed.</p></a>
-      <a class="card" href="benchmark.html" style="text-decoration:none"><span class="badge review" style="margin-bottom:.6rem">Part B</span><h3>The Benchmark →</h3><p class="small muted">Framework, modality panels, tasks, datasets, metrics, and a public leaderboard with a clinical-validity score. This is where models are evaluated.</p></a>
+    <div class="modhead" id="framework"><span class="mnum">B1</span><h3>Framework</h3></div>
+    <p class="muted small">The general evaluation rules shared across every biosignal task. Bound directly to the Delphi consensus.</p>
+    <div class="grid3" style="margin-top:1rem">
+      <div class="card"><h3>What is an evaluation task</h3><p class="small muted">A task is defined by a clinical decision and its adequacy criterion — not by an available label. Each task states the decision it supports.</p></div>
+      <div class="card"><h3>Design & validation rules</h3><p class="small muted">Site/setting-shifted hidden test set for headline claims; declared data splits; disclosed input-quality filters applied consistently at inference.</p></div>
+      <div class="card"><h3>Reporting rules</h3><p class="small muted">Error metric + clinical-adequacy metric together; abstention behaviour reported; failure severity by clinical consequence.</p></div>
     </div>
-  </div>
-</section>
+    <p class="small" style="margin-top:1rem"><a href="delphi.html#principles" style="color:var(--accent)">↑ Each rule traces to a consensus principle (CR-1, MT-1, RP-1 …)</a> — the framework is the operational form of Part A.</p>
 
-<section id="about" class="divider-band">
-  <div class="wrap">
-    <p class="eyebrow">About</p>
-    <div class="trust">
-      <div><h4>Convening group</h4><p class="ph">To be announced at launch</p></div>
-      <div><h4>Steering committee</h4><p class="ph">Clinical + ML co-chairs — forming now</p></div>
-      <div><h4>Position paper</h4><p>The argument in full, with references. <a href="#top" style="color:var(--accent)">Preprint in preparation →</a></p></div>
+    <div class="modhead" id="panels"><span class="mnum">B2</span><h3>Evaluation Panels</h3></div>
+    <p class="muted small">Concrete biosignal domains. Each panel holds its own tasks, datasets, and results — new panels are added over time without changing the core.</p>
+    <div class="grid3" style="margin-top:1rem">
+      <div class="pcard live"><h3>ECG Panel <span class="badge consensus" style="vertical-align:middle">Live</span></h3><div class="meta">Arrhythmia · ischaemia · lead reconstruction</div><div style="margin-top:.6rem"><div class="kv"><span>Tasks</span><span>6</span></div><div class="kv"><span>Datasets</span><span>4</span></div><div class="kv"><span>Models ranked</span><span>12</span></div></div></div>
+      <div class="pcard"><h3>EEG Panel</h3><div class="meta">Seizure detection · sleep staging</div><div style="margin-top:.6rem"><div class="kv"><span>Federates</span><span>SzCORE</span></div><div class="kv"><span>Tasks</span><span>3</span></div><div class="kv"><span>Status</span><span>Onboarding</span></div></div></div>
+      <div class="pcard"><h3>PPG / Wearable Panel</h3><div class="meta">Acute & ambulatory · motion artefact</div><div style="margin-top:.6rem"><div class="kv"><span>Tasks</span><span>2</span></div><div class="kv"><span>Status</span><span>Invited</span></div></div></div>
+      <div class="pcard"><h3>ICU Waveform Panel</h3><div class="meta">Haemodynamic instability · alarms</div><div style="margin-top:.6rem"><div class="kv"><span>Tasks</span><span>2</span></div><div class="kv"><span>Status</span><span>Invited</span></div></div></div>
+      <div class="pcard"><h3>Multimodal Panel</h3><div class="meta">ECG + PPG + resp · fusion</div><div style="margin-top:.6rem"><div class="kv"><span>Tasks</span><span>1</span></div><div class="kv"><span>Status</span><span>Planned</span></div></div></div>
+      <div class="pcard" style="border-style:dashed"><h3>+ Propose a panel</h3><div class="meta">Bring a new modality or federate an existing framework.</div><div style="margin-top:.8rem"><a class="btn btn-ghost btn-sm" href="#submit">Get in touch</a></div></div>
     </div>
-    <p class="small muted" style="margin-top:1.4rem">Existing frameworks such as <a href="https://epilepsybenchmarks.com/framework/" style="color:var(--accent)">SzCORE / epilepsybenchmarks.com</a> join as federated panels and keep their own governance.</p>
+
+    <div class="modhead" id="tasks"><span class="mnum">B3</span><h3>Tasks</h3></div>
+    <p class="muted small">Generic task families, defined once and instantiated with concrete examples inside each panel.</p>
+    <div class="fams">
+      <div class="fam"><b>Signal quality</b><span>diagnostic adequacy, not noise level → ECG lead adequacy</span></div>
+      <div class="fam"><b>Event detection</b><span>onset/offset of clinical events → EEG seizure detection</span></div>
+      <div class="fam"><b>Representation learning</b><span>transferable embeddings → pretrain/probe protocols</span></div>
+      <div class="fam"><b>Reconstruction / synthesis</b><span>fidelity vs plausibility → 12-lead from reduced leads</span></div>
+      <div class="fam"><b>Forecasting</b><span>near-term deterioration → ICU instability</span></div>
+      <div class="fam"><b>Robustness</b><span>missing / noisy channels → dropped-lead stress test</span></div>
+      <div class="fam"><b>Clinical decision support</b><span>threshold-referenced outputs → triage</span></div>
+      <div class="fam"><b>Abstention / uncertainty</b><span>knowing when not to answer → OOD inputs</span></div>
+    </div>
+
+    <div class="modhead" id="datasets"><span class="mnum">B4</span><h3>Datasets</h3></div>
+    <p class="muted small">Dataset cards carry clinical context as first-class metadata (illustrative entries).</p>
+    <div class="grid3" style="margin-top:1rem">
+      <div class="pcard"><h3 style="font-size:1rem">ECG-Acute-ED</h3><div class="kv"><span>Type</span><span>12-lead ECG</span></div><div class="kv"><span>Setting</span><span>Emergency dept.</span></div><div class="kv"><span>Acquisition</span><span>Acute, motion</span></div><div class="kv"><span>Labels</span><span>Reader-adjudicated</span></div><div class="kv"><span>Access</span><span>Credentialed</span></div><div class="kv"><span>Role</span><span><span class="badge review">Hidden test</span></span></div></div>
+      <div class="pcard"><h3 style="font-size:1rem">ECG-Elective-OP</h3><div class="kv"><span>Type</span><span>12-lead ECG</span></div><div class="kv"><span>Setting</span><span>Outpatient</span></div><div class="kv"><span>Acquisition</span><span>Elective, clean</span></div><div class="kv"><span>Labels</span><span>Report-derived</span></div><div class="kv"><span>Access</span><span>Open</span></div><div class="kv"><span>Role</span><span><span class="badge consensus">Train</span></span></div></div>
+      <div class="pcard"><h3 style="font-size:1rem">EEG-Scalp-Sz</h3><div class="kv"><span>Type</span><span>Scalp EEG</span></div><div class="kv"><span>Setting</span><span>Epilepsy monitoring</span></div><div class="kv"><span>Acquisition</span><span>Inpatient</span></div><div class="kv"><span>Labels</span><span>Expert annotation</span></div><div class="kv"><span>Access</span><span>Open (Zenodo)</span></div><div class="kv"><span>Role</span><span><span class="badge revised">Validation</span></span></div></div>
+    </div>
+
+    <div class="modhead" id="metrics"><span class="mnum">B5</span><h3>Metrics</h3></div>
+    <p class="muted small">Shared scoring logic across domains, with panel-specific extensions.</p>
+    <div class="grid3" style="margin-top:1rem">
+      <div class="metric-g"><h4>Standard performance</h4><p>Task-appropriate accuracy: AUROC, sensitivity/specificity, MAE, event F1.</p></div>
+      <div class="metric-g"><h4>Clinical adequacy</h4><p>Threshold-referenced: does the output support the clinical decision it claims to?</p></div>
+      <div class="metric-g"><h4>Failure severity</h4><p>Errors weighted by clinical consequence, not average deviation.</p></div>
+      <div class="metric-g"><h4>Robustness</h4><p>Performance retention under missing / noisy / dropped channels.</p></div>
+      <div class="metric-g"><h4>Coverage / abstention</h4><p>Behaviour on OOD inputs; calibration of “I don't know”.</p></div>
+      <div class="metric-g"><h4>Panel-specific</h4><p>Extensions a domain requires (e.g. per-lead amplitude fidelity for ECG).</p></div>
+    </div>
+
+    <div class="modhead" id="leaderboard"><span class="mnum">B6</span><h3>Leaderboard</h3></div>
+    <p class="muted small">Results across panels and tasks. <b>CVS</b> = clinical validity score. Figures are illustrative.</p>
+    <div class="lb-controls">
+      <select id="lbPanel"><option value="all">All panels</option><option>ECG</option><option>EEG</option></select>
+      <select id="lbTask"><option value="all">All task families</option><option>Signal quality</option><option>Event detection</option><option>Reconstruction</option></select>
+      <select id="lbSort"><option value="cvs">Sort: Clinical validity</option><option value="perf">Sort: Performance</option></select>
+    </div>
+    <div class="lb-wrap">
+      <table class="lb" id="lbTable">
+        <thead><tr><th>#</th><th>Model</th><th>Panel</th><th>Task family</th><th class="num">Performance</th><th class="num">CVS</th><th></th></tr></thead>
+        <tbody>
+          <tr data-panel="ECG" data-task="Signal quality" data-perf="0.94" data-cvs="0.88"><td class="rank">1</td><td><b>WaveFormer-XL</b></td><td>ECG</td><td>Signal quality</td><td class="num">0.94</td><td class="num"><span class="cvs hi">0.88</span></td><td><a class="small" href="#leaderboard" style="color:var(--accent)">report</a></td></tr>
+          <tr data-panel="ECG" data-task="Reconstruction" data-perf="0.96" data-cvs="0.41"><td class="rank">2</td><td><b>LeadNet-v3</b></td><td>ECG</td><td>Reconstruction</td><td class="num">0.96</td><td class="num"><span class="cvs lo">0.41</span></td><td><a class="small" href="#leaderboard" style="color:var(--accent)">report</a></td></tr>
+          <tr data-panel="EEG" data-task="Event detection" data-perf="0.89" data-cvs="0.79"><td class="rank">3</td><td><b>SzTransformer</b></td><td>EEG</td><td>Event detection</td><td class="num">0.89</td><td class="num"><span class="cvs hi">0.79</span></td><td><a class="small" href="#leaderboard" style="color:var(--accent)">report</a></td></tr>
+          <tr data-panel="ECG" data-task="Signal quality" data-perf="0.90" data-cvs="0.63"><td class="rank">4</td><td><b>BioQA-base</b></td><td>ECG</td><td>Signal quality</td><td class="num">0.90</td><td class="num"><span class="cvs mid">0.63</span></td><td><a class="small" href="#leaderboard" style="color:var(--accent)">report</a></td></tr>
+          <tr data-panel="EEG" data-task="Event detection" data-perf="0.85" data-cvs="0.72"><td class="rank">5</td><td><b>EEG-Foundation</b></td><td>EEG</td><td>Event detection</td><td class="num">0.85</td><td class="num"><span class="cvs mid">0.72</span></td><td><a class="small" href="#leaderboard" style="color:var(--accent)">report</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted" style="margin-top:.7rem">Note how <b>LeadNet-v3</b> tops raw performance (0.96) yet scores lowest on clinical validity (0.41) — the reconstruction failure the Problem describes, made visible by the benchmark.</p>
+
+    <div class="modhead" id="submit"><span class="mnum">B7</span><h3>Submit</h3></div>
+    <p class="muted small">Submit a model or evaluation results to a panel.</p>
+    <div class="cards" style="margin-top:1rem">
+      <div class="card"><h3>How it works</h3><ul class="plain small"><li>Package model outputs in the required format (spec in docs)</li><li>Select the target panel and task family</li><li>Complete the metadata + evaluation checklist</li><li>Maintainers review; results appear on the leaderboard</li></ul><p class="small muted" style="margin:0">Required output format · metadata schema · review SLA are published in the docs.</p></div>
+      <div class="card"><h3>Start a submission</h3>
+        <form id="subForm" novalidate>
+          <div class="rf-grid">
+            <div class="rf-field"><label for="sbModel">Model name</label><input id="sbModel" type="text" placeholder="e.g. WaveFormer-XL"></div>
+            <div class="rf-field"><label for="sbPanel">Panel</label><select id="sbPanel"><option>ECG</option><option>EEG</option><option>PPG / Wearable</option><option>ICU Waveform</option><option>Multimodal</option></select></div>
+            <div class="rf-field full"><label for="sbEmail">Contact email</label><input id="sbEmail" type="email" placeholder="you@lab.org"></div>
+          </div>
+          <label class="rf-check"><input type="checkbox" id="sbCheck"> Outputs follow the required format and evaluation checklist.</label>
+          <div style="margin-top:.9rem"><button type="submit" class="btn btn-primary btn-sm">Begin review</button> <span class="small muted" id="sbMsg" aria-live="polite"></span></div>
+        </form>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -342,24 +351,33 @@
 </footer>
 <a class="demo-badge" href="#top">● Demo</a>
 <script>
-  const NS="http://www.w3.org/2000/svg";
-  const X0=46,X1=280,YB=200,YT=30;
-  const ts=[0.06,0.12,0.18,0.23,0.30,0.36,0.41,0.47,0.53,0.58,0.64,0.70,0.75,0.81,0.86,0.90,0.94,0.33];
-  const jit=[-0.03,0.04,-0.02,0.05,-0.04,0.02,0.03,-0.05,0.04,-0.02,0.05,-0.03,0.02,-0.04,0.03,-0.02,0.04,0.05];
-  function place(id,mode){
-    const g=document.getElementById(id); if(!g)return;
-    ts.forEach((t,i)=>{
-      const cx=X0+t*(X1-X0); let rf;
-      if(mode==='good'){ rf=Math.min(0.98,Math.max(0.02,t+jit[i]*0.9)); }
-      else{ rf=0.5+(t-0.5)*0.06+jit[i]*1.2; rf=Math.min(0.9,Math.max(0.12,rf)); }
-      const cy=YB-rf*(YB-YT);
-      const c=document.createElementNS(NS,'circle');
-      c.setAttribute('cx',cx.toFixed(1)); c.setAttribute('cy',cy.toFixed(1));
-      c.setAttribute('r','4.5'); c.setAttribute('fill-opacity','0.82');
-      g.appendChild(c);
+  // Leaderboard filter + sort
+  (function(){
+    const tb=document.getElementById('lbTable'); if(!tb)return;
+    const body=tb.querySelector('tbody');
+    const rows=[...body.querySelectorAll('tr')];
+    const fp=document.getElementById('lbPanel'),ft=document.getElementById('lbTask'),fs=document.getElementById('lbSort');
+    function apply(){
+      let vis=rows.filter(r=>(fp.value==='all'||r.dataset.panel===fp.value)&&(ft.value==='all'||r.dataset.task===ft.value));
+      const key=fs.value==='perf'?'perf':'cvs';
+      vis.sort((a,b)=>parseFloat(b.dataset[key])-parseFloat(a.dataset[key]));
+      rows.forEach(r=>r.style.display='none');
+      vis.forEach((r,i)=>{r.style.display='';r.querySelector('.rank').textContent=i+1;body.appendChild(r);});
+    }
+    [fp,ft,fs].forEach(el=>el.addEventListener('change',apply)); apply();
+  })();
+
+  // Submit demo
+  (function(){
+    const f=document.getElementById('subForm'); if(!f)return;
+    f.addEventListener('submit',(e)=>{
+      e.preventDefault(); const m=document.getElementById('sbMsg');
+      const email=document.getElementById('sbEmail').value.trim();
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){m.style.color='var(--critical)';m.textContent='Valid email needed.';return;}
+      if(!document.getElementById('sbCheck').checked){m.style.color='var(--critical)';m.textContent='Confirm the checklist.';return;}
+      m.style.color='var(--good)'; m.textContent='Submission received (demo).';
     });
-  }
-  place('ptsGood','good'); place('ptsBad','bad');
+  })();
 
 </script>
 </body>
