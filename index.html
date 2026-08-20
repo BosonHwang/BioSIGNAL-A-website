@@ -22,8 +22,8 @@
     --brand-navy:#103A6F;
     --teal:#16B4B8; --coral:#F04E45;
     --critical:#D33A2F; --good:#1b8a1b;
-    --pad:clamp(16px, 3vw, 32px);
-    --maxw:1140px;
+    --pad:clamp(16px, 3vw, 40px);
+    --maxw:1320px;
     --disp:'Space Grotesk',system-ui,sans-serif;
     --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
   }
@@ -41,9 +41,9 @@
   .wrap{width:min(var(--maxw), 100% - 2*var(--pad)); margin-inline:auto}
   h1,h2,h3{font-family:var(--disp); line-height:1.2; letter-spacing:-0.02em; font-weight:680; margin:0; color:var(--brand-navy)}
   .kicker,.axis-num,.prog-pill,.card .pid,.likert button .n,.combo .hint{font-family:var(--mono)}
-  h1{font-size:clamp(1.7rem,3.2vw,2.5rem); margin-bottom:.7rem}
-  h2{font-size:clamp(1.15rem,2vw,1.35rem); margin-bottom:.5rem}
-  h3{font-size:clamp(.98rem,1.4vw,1.08rem)}
+  h1{font-size:clamp(2rem,3.6vw,3.3rem); margin-bottom:.7rem}
+  h2{font-size:clamp(1.2rem,2.2vw,1.6rem); margin-bottom:.5rem}
+  h3{font-size:clamp(1rem,1.5vw,1.15rem)}
   p{margin:0 0 .85rem}
   .muted{color:var(--muted)}
   .small{font-size:.84rem}
@@ -64,11 +64,11 @@
   .btn-ghost:hover{background:var(--surface-2)}
   .btn:disabled{opacity:.45; cursor:not-allowed}
 
-  .hero{position:relative; padding:clamp(28px,6vh,64px) 0; border-bottom:1px solid var(--hair)}
-  .hero-inner{display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); gap:clamp(1.2rem,4vw,3rem); align-items:center; min-height:clamp(180px,24vh,280px)}
+  .hero{position:relative; padding:clamp(32px,5vw,88px) 0; border-bottom:1px solid var(--hair)}
+  .hero-inner{display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); gap:clamp(1.2rem,4vw,3.5rem); align-items:center; min-height:clamp(180px,24vh,300px)}
   .hero-copy{position:relative; z-index:1; max-width:40rem}
-  .kicker{font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:.5rem}
-  .hero-copy p{max-width:min(52ch,100%); color:var(--ink-2); margin-bottom:0}
+  .kicker{font-size:clamp(.7rem,.8vw,.82rem); font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:.5rem}
+  .hero-copy p{max-width:min(52ch,100%); font-size:clamp(.95rem,1.15vw,1.12rem); color:var(--ink-2); margin-bottom:0}
 
   @keyframes rise{from{opacity:0; transform:translateY(16px)} to{opacity:1; transform:none}}
   .kicker{animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
@@ -76,7 +76,7 @@
   .hero-copy p{animation:rise .7s cubic-bezier(.2,.7,.2,1) .14s both}
   .monitor{animation:rise .8s cubic-bezier(.2,.7,.2,1) .22s both}
 
-  .monitor{position:relative; z-index:1; justify-self:end; width:100%; max-width:460px; background:rgba(255,255,255,.78); backdrop-filter:blur(10px); border:1px solid var(--hair); border-radius:16px; padding:1rem 1.1rem 1.05rem; box-shadow:0 12px 34px rgba(11,31,74,.09)}
+  .monitor{position:relative; z-index:1; justify-self:end; width:100%; max-width:min(500px,42vw); background:rgba(255,255,255,.78); backdrop-filter:blur(10px); border:1px solid var(--hair); border-radius:16px; padding:1rem 1.1rem 1.05rem; box-shadow:0 12px 34px rgba(11,31,74,.09)}
   .mon-top{display:flex; align-items:center; gap:.5rem; font-family:var(--mono); font-size:.66rem; font-weight:600; letter-spacing:.08em; color:var(--ink-2)}
   .mon-top b{margin-left:auto; color:var(--accent); font-weight:700}
   .mon-dot{width:7px; height:7px; border-radius:50%; background:var(--coral); box-shadow:0 0 0 0 rgba(240,78,69,.45); animation:pulse-r 1.6s ease-in-out infinite}
@@ -143,7 +143,7 @@
   .dims{display:grid; gap:.55rem}
   .dim{display:grid; grid-template-columns:minmax(80px,6.5rem) minmax(0,1fr); gap:.55rem; align-items:center}
   .dim label{font-size:.7rem; font-weight:650; color:var(--muted); text-transform:uppercase; letter-spacing:.04em}
-  .likert{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:.35rem; width:100%; max-width:46rem}
+  .likert{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:.35rem; width:100%; max-width:54rem}
   .likert button{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.15rem; min-height:2.9rem; width:100%; border-radius:9px; border:1px solid var(--hair); background:#fafaf8; color:var(--ink-2); font-weight:650; cursor:pointer; font-family:inherit; padding:.35rem .3rem; text-align:center}
   .likert button .n{font-size:.95rem; line-height:1; font-variant-numeric:tabular-nums}
   .likert button .lbl{font-size:.68rem; font-weight:550; line-height:1.2; color:var(--muted)}
