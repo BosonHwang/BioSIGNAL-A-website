@@ -76,13 +76,28 @@ UI must make orthogonality obvious (separate axis rows + “Now rating: Family �
 | File | Use |
 |------|-----|
 | `asset/logo.png` | Nav brand mark (icon + wordmark) |
-| `asset/web-background.png` | Hero art (signal arcs → ECG/EEG-like waveforms), right of copy |
+| `asset/web-background.svg` | Full-page background art (signal bundle → ECG/EEG/PPG waveforms), vector, generated |
+| `asset/web-background.png` | Legacy raster version of the background art (superseded by the SVG) |
 
-Site stays light/white so these assets read cleanly. Accent colour tracks brand navy/blue.
+Site stays light so these assets read cleanly.
+
+### 3.4 Colour system
+
+The five brand colours. All site colours derive from these tokens (`:root` CSS variables in `index.html`); do not introduce ad-hoc hex values.
+
+| Name | Hex | Token | Use |
+|------|-----|-------|-----|
+| 深海蓝 Deep-sea navy | `#103A6F` | `--brand-navy`, `--ink` | Brand primary: headings, body ink, outer bundle strands in background art |
+| 科技蓝 Tech blue | `#2878D0` | `--accent` | Primary buttons, links, selected chips, kicker/IDs, curves |
+| 生物青 Bio teal | `#16B4B8` | `--teal` | Physiological-signal accents (background art signal lines, decorative) |
+| 活力珊瑚 Vital coral | `#F04E45` | `--coral` | Emphasis: live/pulse dots, ECG hero line in background art |
+| 冷调白 Cool white | `#F8FBFC` | `--plane` | Page background (with faint navy ECG-paper grid on top) |
+
+Supporting derived tones: `--accent-soft #D8E8F9` (tints), `--critical #D33A2F` (error text — darkened coral for contrast on white), `--good #1b8a1b` (completion green, functional only). Typography pairs with the palette: Space Grotesk for display, JetBrains Mono for data accents.
 
 ---
 
-### 3.4 Content sources (`docs/`)
+### 3.5 Content sources (`docs/`)
 
 | File | Role |
 |------|------|
