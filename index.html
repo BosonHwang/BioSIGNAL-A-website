@@ -25,7 +25,7 @@
   html{scroll-behavior:smooth; scroll-padding-top:200px; background:#fff}
   body{margin:0; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; background:var(--plane); color:var(--ink); line-height:1.55; -webkit-font-smoothing:antialiased}
   a{color:inherit}
-  .wrap{width:100%; max-width:var(--maxw); margin:0 auto; padding-left:var(--pad); padding-right:var(--pad)}
+  .wrap{width:min(var(--maxw), 100% - 2*var(--pad)); margin-inline:auto}
   h1,h2,h3{line-height:1.2; letter-spacing:-0.02em; font-weight:680; margin:0; color:var(--brand-navy)}
   h1{font-size:clamp(1.7rem,3.2vw,2.5rem); margin-bottom:.7rem}
   h2{font-size:clamp(1.15rem,2vw,1.35rem); margin-bottom:.5rem}
