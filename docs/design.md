@@ -96,9 +96,44 @@ The five brand colours. All site colours derive from these tokens (`:root` CSS v
 
 Supporting derived tones: `--accent-soft #D8E8F9` (tints), `--critical #D33A2F` (error text — darkened coral for contrast on white), `--good #1b8a1b` (completion green, functional only). Typography pairs with the palette: Space Grotesk for display, JetBrains Mono for data accents.
 
+### 3.5 Visual & layout system (keep)
+
+Principles behind the current `index.html` implementation. Follow these when extending the site.
+
+**Typography — three-tier**
+
+| Tier | Face | Used for |
+|------|------|----------|
+| Display | Space Grotesk (Google Fonts) | h1–h3, hero |
+| Data / instrument | JetBrains Mono | kicker, axis numbers, principle IDs, progress counter, Likert digits, monitor labels |
+| Body | system-ui stack | everything else |
+
+The mono tier is what gives the site its "instrument" character — any new data-like element (counts, IDs, statuses) uses it.
+
+**Fluid, zoom-resistant layout**
+
+1. Container: `width:min(var(--maxw) 1320px, 100% - 2*var(--pad))`, centred. Never a fixed width; never `max-width` + separate padding.
+2. Proportional grids (`fr`) inside the container; `clamp()` for gaps and section padding.
+3. Display type uses `clamp(min-rem, N vw, max-rem)`. The vw midpoint makes headings physically stable under browser zoom (1vw is a fixed physical width), matching the "can't shrink it" feel of reference sites. Do not size headings in fixed px/rem alone.
+4. Few breakpoints, structural only: 900px (hero → single column), 720px (Likert row → vertical). Continuous scaling handles everything between.
+5. Readability cap: Likert rows max out at 54rem no matter how wide the container gets.
+
+**Background layering (bottom → top)**
+
+1. `html` — cool white `#F8FBFC` with faint navy ECG-paper grid (CSS gradients, 7px minor / 35px major).
+2. `body::before` — fixed full-viewport art layer: `asset/back1.png`, `cover / center`, opacity .55, `position:fixed` (not `background-attachment`, which breaks on iOS). Body itself must stay `background:transparent` — an opaque body paints over negative-z children.
+3. Content — translucent surfaces so the art reads through: sticky bar `rgba(255,255,255,.92)` + blur, cards `.94`, submit band `.85`, footer `.75`.
+
+**Motion rules**
+
+- Entrance: one-shot `rise` (fade + translateY, ~.6–.8s, staggered ≤.25s) on hero elements; cards reveal on first scroll into view (IntersectionObserver adds `.in`).
+- Ambient loops: 1.6–4s ease-in-out infinite, animating only `transform` / `opacity` / `box-shadow` (pulse dots, ECG sweep via `stroke-dashoffset`, monitor bars with negative `animation-delay` stagger).
+- Feedback: Likert select pop (.22s), completed-card green flash, card hover lift.
+- All motion is decorative: `prefers-reduced-motion: reduce` disables everything, and no information is conveyed by animation alone.
+
 ---
 
-### 3.5 Content sources (`docs/`)
+### 3.6 Content sources (`docs/`)
 
 | File | Role |
 |------|------|
