@@ -38,7 +38,7 @@
   body{margin:0; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; background:transparent; color:var(--ink); line-height:1.55; -webkit-font-smoothing:antialiased}
   body::before{content:""; position:fixed; inset:0; z-index:-1; background:url("asset/back1.png") center / cover no-repeat; opacity:.55; pointer-events:none}
   a{color:inherit}
-  .wrap{width:min(var(--maxw), 100% - 2*var(--pad)); margin-inline:auto}
+  .wrap{width:calc(100% - 2*var(--pad)); margin-inline:auto}
   h1,h2,h3{font-family:var(--disp); line-height:1.2; letter-spacing:-0.02em; font-weight:680; margin:0; color:var(--brand-navy)}
   .kicker,.axis-num,.prog-pill,.card .pid,.likert button .n,.combo .hint{font-family:var(--mono)}
   h1{font-size:clamp(2rem,3.6vw,3.3rem); margin-bottom:.7rem}
@@ -143,7 +143,7 @@
   .dims{display:grid; gap:.55rem}
   .dim{display:grid; grid-template-columns:minmax(80px,6.5rem) minmax(0,1fr); gap:.55rem; align-items:center}
   .dim label{font-size:.7rem; font-weight:650; color:var(--muted); text-transform:uppercase; letter-spacing:.04em}
-  .likert{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:.35rem; width:100%; max-width:54rem}
+  .likert{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:.35rem; width:100%}
   .likert button{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.15rem; min-height:2.9rem; width:100%; border-radius:9px; border:1px solid var(--hair); background:#fafaf8; color:var(--ink-2); font-weight:650; cursor:pointer; font-family:inherit; padding:.35rem .3rem; text-align:center}
   .likert button .n{font-size:.95rem; line-height:1; font-variant-numeric:tabular-nums}
   .likert button .lbl{font-size:.68rem; font-weight:550; line-height:1.2; color:var(--muted)}

@@ -112,11 +112,11 @@ The mono tier is what gives the site its "instrument" character — any new data
 
 **Fluid, zoom-resistant layout**
 
-1. Container: `width:min(var(--maxw) 1320px, 100% - 2*var(--pad))`, centred. Never a fixed width; never `max-width` + separate padding.
+1. Container: full-width fluid — `width:calc(100% - 2*var(--pad))`, centred. No max-width cap: cards and the filter bar always fill the viewport. `--pad` (clamp 16–40px) provides the only side breathing room.
 2. Proportional grids (`fr`) inside the container; `clamp()` for gaps and section padding.
 3. Display type uses `clamp(min-rem, N vw, max-rem)`. The vw midpoint makes headings physically stable under browser zoom (1vw is a fixed physical width), matching the "can't shrink it" feel of reference sites. Do not size headings in fixed px/rem alone.
 4. Few breakpoints, structural only: 900px (hero → single column), 720px (Likert row → vertical). Continuous scaling handles everything between.
-5. Readability cap: Likert rows max out at 54rem no matter how wide the container gets.
+5. Likert rows stretch with the card (5 equal `fr` columns); only the submit form keeps a width cap (720px) for readability.
 
 **Background layering (bottom → top)**
 
