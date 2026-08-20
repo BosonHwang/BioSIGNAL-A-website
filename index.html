@@ -6,29 +6,20 @@
 <title>BioSIGNAL-AI — Rate candidate principles</title>
 <meta name="description" content="Rate BioSIGNAL-AI candidate principles for clinically grounded biosignal benchmarks.">
 <meta property="og:title" content="BioSIGNAL-AI — Rate candidate principles">
-<meta property="og:description" content="Shared core + ECG / EEG / PPG. Rate importance for Round 1.">
+<meta property="og:description" content="Shared core + ECG / EEG / PPG. Rate on a labelled 1–5 scale.">
 <meta property="og:type" content="website">
 <style>
   :root{
-    color-scheme: light;
-    --plane:#f9f9f7; --surface:#fcfcfb; --surface-2:#f2f2ee;
-    --ink:#0b0b0b; --ink-2:#52514e; --muted:#898781;
-    --hair:#e1e0d9; --ring:rgba(11,11,11,0.10);
-    --accent:#2a78d6; --accent-soft:#cde2fb;
-    --critical:#d03b3b; --good:#0ca30c;
+    color-scheme: light only;
+    --plane:#ffffff; --surface:#ffffff; --surface-2:#f4f4f2;
+    --ink:#111111; --ink-2:#4a4a47; --muted:#7a7974;
+    --hair:#e8e7e2; --ring:rgba(17,17,17,0.10);
+    --accent:#2a78d6; --accent-soft:#dbebff;
+    --critical:#c62828; --good:#1b8a1b;
     --pad:clamp(16px, 4vw, 56px);
   }
-  @media (prefers-color-scheme: dark){
-    :root{
-      color-scheme: dark;
-      --plane:#0d0d0d; --surface:#1a1a19; --surface-2:#232321;
-      --ink:#fff; --ink-2:#c3c2b7; --muted:#898781;
-      --hair:#2c2c2a; --ring:rgba(255,255,255,0.10);
-      --accent:#3987e5; --accent-soft:#104281;
-    }
-  }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth; scroll-padding-top:120px}
+  html{scroll-behavior:smooth; scroll-padding-top:120px; background:#fff}
   body{margin:0; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; background:var(--plane); color:var(--ink); line-height:1.55; -webkit-font-smoothing:antialiased}
   a{color:inherit}
   .wrap{width:100%; max-width:none; margin:0; padding-left:var(--pad); padding-right:var(--pad)}
@@ -41,65 +32,69 @@
   .small{font-size:.84rem}
   .ink2{color:var(--ink-2)}
 
-  header.nav{position:sticky; top:0; z-index:60; background:color-mix(in srgb,var(--plane) 90%,transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--hair)}
+  header.nav{position:sticky; top:0; z-index:60; background:rgba(255,255,255,.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--hair)}
   .nav-inner{display:flex; align-items:center; gap:1rem; min-height:52px; flex-wrap:wrap; padding:.35rem 0}
   .brand{display:flex; align-items:center; gap:.5rem; font-weight:720; text-decoration:none}
   .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
   .nav-links{margin-left:auto; display:flex; gap:.7rem; align-items:center; flex-wrap:wrap}
-  .prog-pill{font-size:.78rem; font-weight:650; color:var(--ink-2); border:1px solid var(--ring); border-radius:999px; padding:.28rem .7rem; background:var(--surface); font-variant-numeric:tabular-nums}
+  .prog-pill{font-size:.78rem; font-weight:650; color:var(--ink-2); border:1px solid var(--ring); border-radius:999px; padding:.28rem .7rem; background:#fff; font-variant-numeric:tabular-nums}
   .btn{display:inline-block; text-decoration:none; font-weight:620; font-size:.88rem; padding:.5rem 1rem; border-radius:999px; border:1px solid transparent; cursor:pointer; font-family:inherit; background:transparent; color:var(--ink)}
   .btn-primary{background:var(--accent); color:#fff}
   .btn-primary:hover{filter:brightness(1.06)}
-  .btn-ghost{border-color:var(--ring)}
+  .btn-ghost{border-color:var(--ring); background:#fff}
   .btn-ghost:hover{background:var(--surface-2)}
   .btn:disabled{opacity:.45; cursor:not-allowed}
 
   .hero{padding:clamp(28px,5vh,48px) 0 20px}
   .hero p{max-width:min(52ch,100%); color:var(--ink-2)}
 
-  .bar{position:sticky; top:52px; z-index:50; background:var(--surface); border-bottom:1px solid var(--hair); padding:.65rem 0}
+  .bar{position:sticky; top:52px; z-index:50; background:#fff; border-bottom:1px solid var(--hair); padding:.65rem 0}
   .bar-inner{display:flex; flex-wrap:wrap; gap:.55rem; align-items:center}
   .seg{display:flex; gap:.35rem; flex-wrap:wrap}
-  .chip{border:1px solid var(--ring); background:var(--plane); color:var(--ink-2); border-radius:999px; padding:.32rem .75rem; font-size:.78rem; font-weight:600; cursor:pointer; font-family:inherit}
+  .chip{border:1px solid var(--ring); background:#fff; color:var(--ink-2); border-radius:999px; padding:.32rem .75rem; font-size:.78rem; font-weight:600; cursor:pointer; font-family:inherit}
   .chip[aria-pressed="true"], .chip[aria-selected="true"]{background:var(--accent); color:#fff; border-color:var(--accent)}
   .chip:disabled{opacity:.4; cursor:not-allowed}
   .bar .hint{font-size:.75rem; color:var(--muted); margin-left:auto}
 
-  .scale-legend{display:flex; justify-content:space-between; font-size:.72rem; color:var(--muted); max-width:280px; margin:.2rem 0 1rem}
-
-  .card{background:var(--surface); border:1px solid var(--hair); border-radius:12px; padding:clamp(.9rem,1.5vw,1.25rem); margin-bottom:.7rem}
+  .card{background:#fff; border:1px solid var(--hair); border-radius:12px; padding:clamp(.9rem,1.5vw,1.25rem); margin-bottom:.7rem; box-shadow:0 1px 2px rgba(0,0,0,.03)}
   .card .pid{font-size:.72rem; font-weight:700; letter-spacing:.04em; color:var(--accent); font-variant-numeric:tabular-nums}
   .card h3{margin:.2rem 0 .35rem}
   .card .stmt{font-size:clamp(.9rem,1.2vw,.98rem); color:var(--ink-2); margin:0 0 .75rem; max-width:90ch}
-  .dims{display:grid; gap:.55rem}
-  .dim{display:grid; grid-template-columns:minmax(72px,7rem) minmax(0,1fr); gap:.5rem; align-items:center}
-  .dim label{font-size:.72rem; font-weight:650; color:var(--muted); text-transform:uppercase; letter-spacing:.04em}
-  .likert{display:flex; gap:.25rem; flex-wrap:wrap}
-  .likert button{flex:0 0 auto; width:clamp(1.75rem,2.2vw,2.15rem); height:clamp(1.75rem,2.2vw,2.15rem); border-radius:7px; border:1px solid var(--ring); background:var(--plane); color:var(--ink-2); font-weight:650; font-size:.8rem; cursor:pointer; font-family:inherit; padding:0}
+  .dims{display:grid; gap:.75rem}
+  .dim{display:grid; grid-template-columns:minmax(88px,7.5rem) minmax(0,1fr); gap:.55rem; align-items:start}
+  .dim label{font-size:.72rem; font-weight:650; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; padding-top:.55rem}
+  .likert{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:.35rem; width:100%}
+  .likert button{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.2rem; min-height:3.4rem; width:100%; border-radius:10px; border:1px solid var(--hair); background:#fafaf8; color:var(--ink-2); font-weight:650; cursor:pointer; font-family:inherit; padding:.4rem .35rem; text-align:center}
+  .likert button .n{font-size:.95rem; line-height:1; font-variant-numeric:tabular-nums}
+  .likert button .lbl{font-size:.68rem; font-weight:550; line-height:1.2; color:var(--muted)}
   .likert button[aria-pressed="true"]{background:var(--accent); color:#fff; border-color:var(--accent)}
-  .card.done{border-color:color-mix(in srgb,var(--good) 45%,var(--hair))}
-  .note{width:100%; font:inherit; font-size:.85rem; padding:.45rem .55rem; border:1px solid var(--hair); border-radius:8px; background:var(--plane); color:var(--ink); resize:vertical; min-height:38px; margin-top:.55rem}
+  .likert button[aria-pressed="true"] .lbl{color:rgba(255,255,255,.92)}
+  .card.done{border-color:color-mix(in srgb,var(--good) 40%,var(--hair))}
+  .note{width:100%; font:inherit; font-size:.85rem; padding:.45rem .55rem; border:1px solid var(--hair); border-radius:8px; background:#fff; color:var(--ink); resize:vertical; min-height:38px; margin-top:.55rem}
   .note:focus{outline:2px solid var(--accent); outline-offset:1px}
 
-  #rate{padding:1.2rem 0 2rem}
+  #rate{padding:1.2rem 0 2rem; background:#fff}
   #rate .wrap{display:flex; flex-direction:column; gap:.7rem}
   #rate .card{margin-bottom:0; width:100%}
   #submit{padding:2rem 0 3rem; border-top:1px solid var(--hair); background:var(--surface-2)}
-  .formbox{background:var(--surface); border:1px solid var(--hair); border-radius:14px; padding:clamp(1rem,2vw,1.4rem); width:100%; max-width:min(720px,100%)}
+  .formbox{background:#fff; border:1px solid var(--hair); border-radius:14px; padding:clamp(1rem,2vw,1.4rem); width:100%; max-width:min(720px,100%)}
   .rf-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:.6rem}
   .rf-field{display:flex; flex-direction:column; gap:.25rem}
   .rf-field.full{grid-column:1/-1}
   .rf-field label{font-size:.74rem; color:var(--ink-2); font-weight:620}
-  .rf-field input, .rf-field select{font:inherit; padding:.5rem .6rem; border:1px solid var(--hair); border-radius:9px; background:var(--surface); color:var(--ink); width:100%}
+  .rf-field input, .rf-field select{font:inherit; padding:.5rem .6rem; border:1px solid var(--hair); border-radius:9px; background:#fff; color:var(--ink); width:100%}
   .mods{display:flex; gap:.4rem; flex-wrap:wrap}
   .rf-err{color:var(--critical); font-size:.8rem; min-height:1.1em; margin-top:.4rem}
   .rf-ok{color:var(--good); font-size:.85rem; margin-top:.5rem}
   .actions{display:flex; gap:.5rem; flex-wrap:wrap; margin-top:1rem}
-  footer{border-top:1px solid var(--hair); padding:1.4rem 0; font-size:.82rem; color:var(--muted)}
+  footer{border-top:1px solid var(--hair); padding:1.4rem 0; font-size:.82rem; color:var(--muted); background:#fff}
   footer a{color:var(--ink-2); text-decoration:none}
 
   @media (max-width:720px){
     .dim{grid-template-columns:1fr}
+    .dim label{padding-top:0}
+    .likert{grid-template-columns:1fr; gap:.3rem}
+    .likert button{flex-direction:row; justify-content:flex-start; gap:.55rem; min-height:2.6rem; padding:.45rem .7rem; text-align:left}
     .bar{top:0}
     .bar .hint{margin-left:0; width:100%}
   }
@@ -121,7 +116,7 @@
 <section class="hero">
   <div class="wrap">
     <h1>Rate the candidate principles.</h1>
-    <p>Score <b>importance</b>, <b>clarity</b>, <b>feasibility</b>, and <b>applicability</b> (1–9). Rate the shared core; add ECG / EEG / PPG if that is your expertise.</p>
+    <p>Score <b>importance</b>, <b>clarity</b>, and <b>feasibility</b> on a 1–5 scale (each point labelled). Rate the shared core; add ECG / EEG / PPG if that is your expertise.</p>
   </div>
 </section>
 
@@ -137,7 +132,7 @@
       <button class="chip" type="button" data-scope="eeg" aria-pressed="false">EEG</button>
       <button class="chip" type="button" data-scope="ppg" aria-pressed="false">PPG</button>
     </div>
-    <span class="hint">1 = low · 9 = high</span>
+    <span class="hint">1–5 · labelled scale</span>
   </div>
 </div>
 
@@ -192,9 +187,32 @@
 </footer>
 
 <script>
-const DIMS = ['importance','clarity','feasibility','applicability'];
-const DIM_LABEL = {importance:'Importance', clarity:'Clarity', feasibility:'Feasibility', applicability:'Applicability'};
-const STORE_KEY = 'biosignal-ai-ratings-v1';
+const DIMS = ['importance','clarity','feasibility'];
+const DIM_LABEL = {importance:'Importance', clarity:'Clarity', feasibility:'Feasibility'};
+const SCALE = {
+  importance: {
+    1: 'Not important',
+    2: 'Slightly important',
+    3: 'Moderately important',
+    4: 'Important',
+    5: 'Essential'
+  },
+  clarity: {
+    1: 'Unclear',
+    2: 'Mostly unclear',
+    3: 'Adequate',
+    4: 'Clear',
+    5: 'Very clear'
+  },
+  feasibility: {
+    1: 'Not feasible',
+    2: 'Difficult',
+    3: 'Feasible with effort',
+    4: 'Feasible',
+    5: 'Readily feasible'
+  }
+};
+const STORE_KEY = 'biosignal-ai-ratings-v3';
 
 const PRINCIPLES = [
   // Task · core
@@ -258,7 +276,7 @@ function expectedIds(){
 }
 function isComplete(id){
   const r = state.ratings[id];
-  return r && DIMS.every(d => r[d] >= 1 && r[d] <= 9);
+  return r && DIMS.every(d => r[d] >= 1 && r[d] <= 5);
 }
 function updateProgress(){
   const ids = expectedIds();
@@ -272,8 +290,8 @@ function render(){
   list.innerHTML = items.map(p => {
     const r = state.ratings[p.id] || {};
     const dims = DIMS.map(d => {
-      const btns = Array.from({length:9}, (_,i)=>i+1).map(n =>
-        `<button type="button" data-id="${p.id}" data-dim="${d}" data-v="${n}" aria-pressed="${r[d]===n}">${n}</button>`
+      const btns = [1,2,3,4,5].map(n =>
+        `<button type="button" data-id="${p.id}" data-dim="${d}" data-v="${n}" aria-pressed="${r[d]===n}" title="${n}. ${SCALE[d][n]}" aria-label="${DIM_LABEL[d]}: ${n}. ${SCALE[d][n]}"><span class="n">${n}</span><span class="lbl">${SCALE[d][n]}</span></button>`
       ).join('');
       return `<div class="dim"><label>${DIM_LABEL[d]}</label><div class="likert">${btns}</div></div>`;
     }).join('');
@@ -379,7 +397,8 @@ function buildPayload(){
     if(state.ratings[id]) ratings[id]={...state.ratings[id], note:state.notes[id]||''};
   });
   return {
-    schema:'biosignal-ai-principle-ratings/v1',
+    schema:'biosignal-ai-principle-ratings/v3',
+    scale:{min:1,max:5,dimensions:DIMS,labels:SCALE},
     exported_at:new Date().toISOString(),
     version:'0.2',
     participant:profile,
