@@ -16,7 +16,7 @@
     --hair:#e1e0d9; --ring:rgba(11,11,11,0.10);
     --accent:#2a78d6; --accent-soft:#cde2fb;
     --critical:#d03b3b; --good:#0ca30c;
-    --maxw:920px; --pad:clamp(18px,4vw,40px);
+    --pad:clamp(16px, 4vw, 56px);
   }
   @media (prefers-color-scheme: dark){
     :root{
@@ -31,21 +31,21 @@
   html{scroll-behavior:smooth; scroll-padding-top:120px}
   body{margin:0; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; background:var(--plane); color:var(--ink); line-height:1.55; -webkit-font-smoothing:antialiased}
   a{color:inherit}
-  .wrap{max-width:var(--maxw); margin:0 auto; padding-left:var(--pad); padding-right:var(--pad)}
+  .wrap{width:100%; max-width:none; margin:0; padding-left:var(--pad); padding-right:var(--pad)}
   h1,h2,h3{line-height:1.2; letter-spacing:-0.02em; font-weight:680; margin:0}
-  h1{font-size:clamp(1.7rem,4vw,2.35rem); margin-bottom:.7rem}
-  h2{font-size:1.25rem; margin-bottom:.5rem}
-  h3{font-size:1rem}
+  h1{font-size:clamp(1.7rem,3.2vw,2.5rem); margin-bottom:.7rem}
+  h2{font-size:clamp(1.15rem,2vw,1.35rem); margin-bottom:.5rem}
+  h3{font-size:clamp(.98rem,1.4vw,1.08rem)}
   p{margin:0 0 .85rem}
   .muted{color:var(--muted)}
   .small{font-size:.84rem}
   .ink2{color:var(--ink-2)}
 
   header.nav{position:sticky; top:0; z-index:60; background:color-mix(in srgb,var(--plane) 90%,transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--hair)}
-  .nav-inner{display:flex; align-items:center; gap:1rem; height:52px}
+  .nav-inner{display:flex; align-items:center; gap:1rem; min-height:52px; flex-wrap:wrap; padding:.35rem 0}
   .brand{display:flex; align-items:center; gap:.5rem; font-weight:720; text-decoration:none}
   .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-  .nav-links{margin-left:auto; display:flex; gap:.7rem; align-items:center}
+  .nav-links{margin-left:auto; display:flex; gap:.7rem; align-items:center; flex-wrap:wrap}
   .prog-pill{font-size:.78rem; font-weight:650; color:var(--ink-2); border:1px solid var(--ring); border-radius:999px; padding:.28rem .7rem; background:var(--surface); font-variant-numeric:tabular-nums}
   .btn{display:inline-block; text-decoration:none; font-weight:620; font-size:.88rem; padding:.5rem 1rem; border-radius:999px; border:1px solid transparent; cursor:pointer; font-family:inherit; background:transparent; color:var(--ink)}
   .btn-primary{background:var(--accent); color:#fff}
@@ -55,7 +55,7 @@
   .btn:disabled{opacity:.45; cursor:not-allowed}
 
   .hero{padding:clamp(28px,5vh,48px) 0 20px}
-  .hero p{max-width:52ch; color:var(--ink-2)}
+  .hero p{max-width:min(52ch,100%); color:var(--ink-2)}
 
   .bar{position:sticky; top:52px; z-index:50; background:var(--surface); border-bottom:1px solid var(--hair); padding:.65rem 0}
   .bar-inner{display:flex; flex-wrap:wrap; gap:.55rem; align-items:center}
@@ -67,28 +67,35 @@
 
   .scale-legend{display:flex; justify-content:space-between; font-size:.72rem; color:var(--muted); max-width:280px; margin:.2rem 0 1rem}
 
-  .card{background:var(--surface); border:1px solid var(--hair); border-radius:12px; padding:1rem 1.05rem; margin-bottom:.7rem}
+  .card{background:var(--surface); border:1px solid var(--hair); border-radius:12px; padding:clamp(.9rem,1.5vw,1.25rem); margin-bottom:.7rem}
   .card .pid{font-size:.72rem; font-weight:700; letter-spacing:.04em; color:var(--accent); font-variant-numeric:tabular-nums}
   .card h3{margin:.2rem 0 .35rem}
-  .card .stmt{font-size:.92rem; color:var(--ink-2); margin:0 0 .75rem}
+  .card .stmt{font-size:clamp(.9rem,1.2vw,.98rem); color:var(--ink-2); margin:0 0 .75rem; max-width:90ch}
   .dims{display:grid; gap:.55rem}
-  .dim{display:grid; grid-template-columns:88px 1fr; gap:.5rem; align-items:center}
+  .dim{display:grid; grid-template-columns:minmax(72px,7rem) minmax(0,1fr); gap:.5rem; align-items:center}
   .dim label{font-size:.72rem; font-weight:650; color:var(--muted); text-transform:uppercase; letter-spacing:.04em}
   .likert{display:flex; gap:.25rem; flex-wrap:wrap}
-  .likert button{width:1.85rem; height:1.85rem; border-radius:7px; border:1px solid var(--ring); background:var(--plane); color:var(--ink-2); font-weight:650; font-size:.8rem; cursor:pointer; font-family:inherit; padding:0}
+  .likert button{flex:0 0 auto; width:clamp(1.75rem,2.2vw,2.15rem); height:clamp(1.75rem,2.2vw,2.15rem); border-radius:7px; border:1px solid var(--ring); background:var(--plane); color:var(--ink-2); font-weight:650; font-size:.8rem; cursor:pointer; font-family:inherit; padding:0}
   .likert button[aria-pressed="true"]{background:var(--accent); color:#fff; border-color:var(--accent)}
   .card.done{border-color:color-mix(in srgb,var(--good) 45%,var(--hair))}
   .note{width:100%; font:inherit; font-size:.85rem; padding:.45rem .55rem; border:1px solid var(--hair); border-radius:8px; background:var(--plane); color:var(--ink); resize:vertical; min-height:38px; margin-top:.55rem}
   .note:focus{outline:2px solid var(--accent); outline-offset:1px}
 
   #rate{padding:1.2rem 0 2rem}
+  #rate .wrap{display:grid; grid-template-columns:1fr; gap:0}
+  @media (min-width:1100px){
+    #rate .wrap{grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem 1rem; align-items:start}
+  }
+  @media (min-width:1600px){
+    #rate .wrap{grid-template-columns:repeat(3,minmax(0,1fr))}
+  }
   #submit{padding:2rem 0 3rem; border-top:1px solid var(--hair); background:var(--surface-2)}
-  .formbox{background:var(--surface); border:1px solid var(--hair); border-radius:14px; padding:1.2rem; max-width:560px}
-  .rf-grid{display:grid; grid-template-columns:1fr 1fr; gap:.6rem}
+  .formbox{background:var(--surface); border:1px solid var(--hair); border-radius:14px; padding:clamp(1rem,2vw,1.4rem); width:100%; max-width:min(720px,100%)}
+  .rf-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:.6rem}
   .rf-field{display:flex; flex-direction:column; gap:.25rem}
   .rf-field.full{grid-column:1/-1}
   .rf-field label{font-size:.74rem; color:var(--ink-2); font-weight:620}
-  .rf-field input, .rf-field select{font:inherit; padding:.5rem .6rem; border:1px solid var(--hair); border-radius:9px; background:var(--surface); color:var(--ink)}
+  .rf-field input, .rf-field select{font:inherit; padding:.5rem .6rem; border:1px solid var(--hair); border-radius:9px; background:var(--surface); color:var(--ink); width:100%}
   .mods{display:flex; gap:.4rem; flex-wrap:wrap}
   .rf-err{color:var(--critical); font-size:.8rem; min-height:1.1em; margin-top:.4rem}
   .rf-ok{color:var(--good); font-size:.85rem; margin-top:.5rem}
@@ -98,7 +105,7 @@
 
   @media (max-width:720px){
     .dim{grid-template-columns:1fr}
-    .rf-grid{grid-template-columns:1fr}
+    .bar{top:0}
     .bar .hint{margin-left:0; width:100%}
   }
 </style>
@@ -267,11 +274,6 @@ function updateProgress(){
 function render(){
   const list = document.getElementById('principleList');
   const items = PRINCIPLES.filter(p => p.family===family && p.scope===scope);
-  const mods = new Set(state.profile.modalities || []);
-  if(scope !== 'core' && !mods.has(scope)){
-    list.innerHTML = '<p class="ink2">Enable <b>'+scope.toUpperCase()+'</b> under Submit → Modalities to rate this block.</p>';
-    return;
-  }
   list.innerHTML = items.map(p => {
     const r = state.ratings[p.id] || {};
     const dims = DIMS.map(d => {
@@ -327,7 +329,18 @@ document.querySelectorAll('#scopeSeg [data-scope]').forEach(b=>{
     document.querySelectorAll('#scopeSeg [data-scope]').forEach(x=>x.setAttribute('aria-pressed','false'));
     b.setAttribute('aria-pressed','true');
     scope=b.dataset.scope;
+    if(scope !== 'core'){
+      const set = new Set(state.profile.modalities || []);
+      if(!set.has(scope)){
+        set.add(scope);
+        state.profile.modalities=[...set];
+        saveState(state);
+        const modBtn=document.querySelector('#modPick [data-mod="'+scope+'"]');
+        if(modBtn) modBtn.setAttribute('aria-pressed','true');
+      }
+    }
     render();
+    updateProgress();
   });
 });
 
