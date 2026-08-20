@@ -24,6 +24,7 @@
   *{box-sizing:border-box}
   html{scroll-behavior:smooth; scroll-padding-top:200px; background:#fff}
   body{margin:0; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; background:var(--plane); color:var(--ink); line-height:1.55; -webkit-font-smoothing:antialiased}
+  body::before{content:""; position:fixed; inset:0; z-index:-1; background:url("asset/web-background.png") right center / cover no-repeat; opacity:.45; pointer-events:none}
   a{color:inherit}
   .wrap{width:min(var(--maxw), 100% - 2*var(--pad)); margin-inline:auto}
   h1,h2,h3{line-height:1.2; letter-spacing:-0.02em; font-weight:680; margin:0; color:var(--brand-navy)}
@@ -48,21 +49,16 @@
   .btn-ghost:hover{background:var(--surface-2)}
   .btn:disabled{opacity:.45; cursor:not-allowed}
 
-  .hero{position:relative; padding:clamp(20px,3.5vh,36px) 0; overflow:hidden; border-bottom:1px solid var(--hair)}
-  .hero-inner{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:clamp(1rem,3vw,2.5rem); align-items:center}
+  .hero{position:relative; padding:clamp(28px,6vh,64px) 0; border-bottom:1px solid var(--hair)}
+  .hero-inner{display:flex; align-items:center; min-height:clamp(140px,22vh,260px)}
   .hero-copy{position:relative; z-index:1; max-width:40rem}
   .kicker{font-size:.74rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:.5rem}
   .hero-copy p{max-width:min(52ch,100%); color:var(--ink-2); margin-bottom:0}
-  .hero-art{position:relative; pointer-events:none; justify-self:end; width:100%; max-width:420px}
-  .hero-art img{width:100%; max-height:220px; height:auto; display:block; object-fit:contain; object-position:right center}
   @media (max-width:900px){
-    .hero-inner{grid-template-columns:1fr}
-    .hero-art{order:-1; max-width:min(340px,80%); margin:0 auto; justify-self:center}
-    .hero-art img{max-height:150px}
     .axis{grid-template-columns:1fr; gap:.35rem}
   }
 
-  .bar{position:sticky; top:64px; z-index:50; background:#fff; border-bottom:1px solid var(--hair); padding:.6rem 0}
+  .bar{position:sticky; top:64px; z-index:50; background:rgba(255,255,255,.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--hair); padding:.6rem 0}
   .bar-inner{display:flex; flex-direction:column; gap:.5rem}
   .axes{display:flex; flex-direction:column; gap:.45rem}
   .axis{display:grid; grid-template-columns:5.5rem minmax(0,1fr); gap:.65rem; align-items:center}
@@ -84,7 +80,7 @@
   .combo .x{color:var(--muted); font-weight:600}
   .combo .hint{margin-left:auto; font-size:.72rem; color:var(--muted)}
 
-  .card{background:#fff; border:1px solid var(--hair); border-radius:12px; padding:clamp(.9rem,1.5vw,1.25rem); margin-bottom:.7rem; box-shadow:0 1px 2px rgba(0,0,0,.03)}
+  .card{background:rgba(255,255,255,.94); border:1px solid var(--hair); border-radius:12px; padding:clamp(.9rem,1.5vw,1.25rem); margin-bottom:.7rem; box-shadow:0 1px 2px rgba(0,0,0,.03)}
   .card .pid{font-size:.72rem; font-weight:700; letter-spacing:.04em; color:var(--accent); font-variant-numeric:tabular-nums}
   .card h3{margin:.2rem 0 .35rem}
   .card .stmt{font-size:clamp(.9rem,1.2vw,.98rem); color:var(--ink-2); margin:0 0 .75rem; max-width:90ch}
@@ -101,10 +97,10 @@
   .note{width:100%; font:inherit; font-size:.85rem; padding:.45rem .55rem; border:1px solid var(--hair); border-radius:8px; background:#fff; color:var(--ink); resize:vertical; min-height:38px; margin-top:.55rem}
   .note:focus{outline:2px solid var(--accent); outline-offset:1px}
 
-  #rate{padding:1.2rem 0 2rem; background:#fff}
+  #rate{padding:1.2rem 0 2rem}
   #rate .wrap{display:flex; flex-direction:column; gap:.7rem}
   #rate .card{margin-bottom:0; width:100%}
-  #submit{padding:2rem 0 3rem; border-top:1px solid var(--hair); background:var(--surface-2)}
+  #submit{padding:2rem 0 3rem; border-top:1px solid var(--hair); background:rgba(244,244,242,.85)}
   .formbox{background:#fff; border:1px solid var(--hair); border-radius:14px; padding:clamp(1rem,2vw,1.4rem); width:100%; max-width:min(720px,100%)}
   .rf-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:.6rem}
   .rf-field{display:flex; flex-direction:column; gap:.25rem}
@@ -115,7 +111,7 @@
   .rf-err{color:var(--critical); font-size:.8rem; min-height:1.1em; margin-top:.4rem}
   .rf-ok{color:var(--good); font-size:.85rem; margin-top:.5rem}
   .actions{display:flex; gap:.5rem; flex-wrap:wrap; margin-top:1rem}
-  footer{border-top:1px solid var(--hair); padding:1.4rem 0; font-size:.82rem; color:var(--muted); background:#fff}
+  footer{border-top:1px solid var(--hair); padding:1.4rem 0; font-size:.82rem; color:var(--muted); background:rgba(255,255,255,.75)}
   footer a{color:var(--ink-2); text-decoration:none}
 
   @media (max-width:720px){
@@ -148,9 +144,6 @@
       <div class="kicker">BioSIGNAL-AI Consortium · Delphi Round 1</div>
       <h1>The BioSIGNAL-AI Delphi Study</h1>
       <p>Rate the candidate principles. Two independent filters: <b>family</b> (Task vs Benchmark) × <b>scope</b> (Shared core / ECG / EEG / PPG). Score importance, clarity, and feasibility on a labelled 1–5 scale.</p>
-    </div>
-    <div class="hero-art" aria-hidden="true">
-      <img src="asset/web-background.png" alt="">
     </div>
   </div>
 </section>
