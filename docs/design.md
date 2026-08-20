@@ -76,8 +76,9 @@ UI must make orthogonality obvious (separate axis rows + “Now rating: Family �
 | File | Use |
 |------|-----|
 | `asset/logo.png` | Nav brand mark (icon + wordmark) |
-| `asset/web-background.svg` | Full-page background art (signal bundle → ECG/EEG/PPG waveforms), vector, generated |
-| `asset/web-background.png` | Legacy raster version of the background art (superseded by the SVG) |
+| `asset/back1.png` | Full-page background art (signal bundle pinched at a waist → teal/coral/blue waveforms), fixed layer behind all content |
+| `asset/web-background.svg` | Vector trace of `back1.png` (generated, kept as a scalable fallback/source) |
+| `asset/web-background.png` | Legacy raster background (superseded) |
 
 Site stays light so these assets read cleanly.
 
