@@ -7,23 +7,25 @@
 <meta name="description" content="Rate BioSIGNAL-AI candidate principles for clinically grounded biosignal benchmarks.">
 <meta property="og:title" content="BioSIGNAL-AI — Rate candidate principles">
 <meta property="og:description" content="Shared core + ECG / EEG / PPG. Rate on a labelled 1–5 scale.">
-<meta property="og:type" content="website">
+<meta property="og:image" content="asset/logo.png">
+<link rel="icon" type="image/png" href="asset/logo.png">
 <style>
   :root{
     color-scheme: light only;
     --plane:#ffffff; --surface:#ffffff; --surface-2:#f4f4f2;
-    --ink:#111111; --ink-2:#4a4a47; --muted:#7a7974;
-    --hair:#e8e7e2; --ring:rgba(17,17,17,0.10);
-    --accent:#2a78d6; --accent-soft:#dbebff;
+    --ink:#0b1f4a; --ink-2:#3d4a63; --muted:#6b7385;
+    --hair:#e6e8ee; --ring:rgba(11,31,74,0.12);
+    --accent:#1a5fcc; --accent-soft:#d9e8ff;
+    --brand-navy:#0b1f4a;
     --critical:#c62828; --good:#1b8a1b;
     --pad:clamp(16px, 4vw, 56px);
   }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth; scroll-padding-top:120px; background:#fff}
+  html{scroll-behavior:smooth; scroll-padding-top:140px; background:#fff}
   body{margin:0; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; background:var(--plane); color:var(--ink); line-height:1.55; -webkit-font-smoothing:antialiased}
   a{color:inherit}
   .wrap{width:100%; max-width:none; margin:0; padding-left:var(--pad); padding-right:var(--pad)}
-  h1,h2,h3{line-height:1.2; letter-spacing:-0.02em; font-weight:680; margin:0}
+  h1,h2,h3{line-height:1.2; letter-spacing:-0.02em; font-weight:680; margin:0; color:var(--brand-navy)}
   h1{font-size:clamp(1.7rem,3.2vw,2.5rem); margin-bottom:.7rem}
   h2{font-size:clamp(1.15rem,2vw,1.35rem); margin-bottom:.5rem}
   h3{font-size:clamp(.98rem,1.4vw,1.08rem)}
@@ -32,10 +34,10 @@
   .small{font-size:.84rem}
   .ink2{color:var(--ink-2)}
 
-  header.nav{position:sticky; top:0; z-index:60; background:rgba(255,255,255,.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--hair)}
-  .nav-inner{display:flex; align-items:center; gap:1rem; min-height:52px; flex-wrap:wrap; padding:.35rem 0}
-  .brand{display:flex; align-items:center; gap:.5rem; font-weight:720; text-decoration:none}
-  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  header.nav{position:sticky; top:0; z-index:60; background:rgba(255,255,255,.94); backdrop-filter:blur(8px); border-bottom:1px solid var(--hair)}
+  .nav-inner{display:flex; align-items:center; gap:1rem; min-height:64px; flex-wrap:wrap; padding:.45rem 0}
+  .brand{display:flex; align-items:center; text-decoration:none; line-height:0}
+  .brand img{height:clamp(36px,5vw,48px); width:auto; display:block}
   .nav-links{margin-left:auto; display:flex; gap:.7rem; align-items:center; flex-wrap:wrap}
   .prog-pill{font-size:.78rem; font-weight:650; color:var(--ink-2); border:1px solid var(--ring); border-radius:999px; padding:.28rem .7rem; background:#fff; font-variant-numeric:tabular-nums}
   .btn{display:inline-block; text-decoration:none; font-weight:620; font-size:.88rem; padding:.5rem 1rem; border-radius:999px; border:1px solid transparent; cursor:pointer; font-family:inherit; background:transparent; color:var(--ink)}
@@ -45,16 +47,39 @@
   .btn-ghost:hover{background:var(--surface-2)}
   .btn:disabled{opacity:.45; cursor:not-allowed}
 
-  .hero{padding:clamp(28px,5vh,48px) 0 20px}
-  .hero p{max-width:min(52ch,100%); color:var(--ink-2)}
+  .hero{position:relative; padding:clamp(28px,5vh,56px) 0 clamp(24px,4vh,40px); overflow:hidden}
+  .hero-inner{display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:clamp(1rem,3vw,2.5rem); align-items:center; min-height:clamp(200px,28vw,320px)}
+  .hero-copy{position:relative; z-index:1; max-width:40rem}
+  .hero-copy p{max-width:min(52ch,100%); color:var(--ink-2)}
+  .hero-art{position:relative; min-height:180px; pointer-events:none}
+  .hero-art img{width:100%; height:auto; display:block; object-fit:contain; object-position:right center}
+  @media (max-width:900px){
+    .hero-inner{grid-template-columns:1fr; min-height:0}
+    .hero-art{order:-1; max-width:min(420px,90%); margin:0 auto; min-height:0}
+    .axis{grid-template-columns:1fr}
+  }
 
-  .bar{position:sticky; top:52px; z-index:50; background:#fff; border-bottom:1px solid var(--hair); padding:.65rem 0}
-  .bar-inner{display:flex; flex-wrap:wrap; gap:.55rem; align-items:center}
-  .seg{display:flex; gap:.35rem; flex-wrap:wrap}
+  .bar{position:sticky; top:64px; z-index:50; background:#fff; border-bottom:1px solid var(--hair); padding:.85rem 0}
+  .bar-inner{display:flex; flex-direction:column; gap:.7rem}
+  .axes{display:flex; flex-direction:column; gap:.65rem}
+  .axis{display:grid; grid-template-columns:7.5rem minmax(0,1fr); gap:.75rem; align-items:start}
+  .axis-meta{padding-top:.15rem}
+  .axis-num{font-size:.68rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--accent)}
+  .axis-name{font-size:.92rem; font-weight:680; line-height:1.2; margin-top:.1rem}
+  .axis-help{font-size:.72rem; color:var(--muted); margin-top:.15rem; line-height:1.35}
+  .seg-row{display:flex; gap:.45rem; flex-wrap:wrap}
   .chip{border:1px solid var(--ring); background:#fff; color:var(--ink-2); border-radius:999px; padding:.32rem .75rem; font-size:.78rem; font-weight:600; cursor:pointer; font-family:inherit}
   .chip[aria-pressed="true"], .chip[aria-selected="true"]{background:var(--accent); color:#fff; border-color:var(--accent)}
   .chip:disabled{opacity:.4; cursor:not-allowed}
-  .bar .hint{font-size:.75rem; color:var(--muted); margin-left:auto}
+  .navchip{display:flex; flex-direction:column; align-items:flex-start; gap:.12rem; text-align:left; border:1px solid var(--hair); background:#fff; color:var(--ink); border-radius:12px; padding:.55rem .85rem; cursor:pointer; font-family:inherit; min-width:9.5rem; max-width:18rem}
+  .navchip .t{font-size:.88rem; font-weight:680; line-height:1.2}
+  .navchip .s{font-size:.72rem; font-weight:500; color:var(--muted); line-height:1.3}
+  .navchip[aria-pressed="true"], .navchip[aria-selected="true"]{background:var(--accent); color:#fff; border-color:var(--accent)}
+  .navchip[aria-pressed="true"] .s, .navchip[aria-selected="true"] .s{color:rgba(255,255,255,.88)}
+  .combo{display:flex; flex-wrap:wrap; align-items:center; gap:.45rem .7rem; padding:.55rem .8rem; border:1px dashed var(--hair); border-radius:10px; background:#fafaf8; font-size:.84rem}
+  .combo b{font-weight:680}
+  .combo .x{color:var(--muted); font-weight:600}
+  .combo .hint{margin-left:auto; font-size:.75rem; color:var(--muted)}
 
   .card{background:#fff; border:1px solid var(--hair); border-radius:12px; padding:clamp(.9rem,1.5vw,1.25rem); margin-bottom:.7rem; box-shadow:0 1px 2px rgba(0,0,0,.03)}
   .card .pid{font-size:.72rem; font-weight:700; letter-spacing:.04em; color:var(--accent); font-variant-numeric:tabular-nums}
@@ -95,8 +120,9 @@
     .dim label{padding-top:0}
     .likert{grid-template-columns:1fr; gap:.3rem}
     .likert button{flex-direction:row; justify-content:flex-start; gap:.55rem; min-height:2.6rem; padding:.45rem .7rem; text-align:left}
+    .navchip{min-width:0; max-width:none; flex:1 1 100%}
+    .combo .hint{margin-left:0; width:100%}
     .bar{top:0}
-    .bar .hint{margin-left:0; width:100%}
   }
 </style>
 </head>
@@ -105,7 +131,7 @@
 
 <header class="nav">
   <div class="wrap nav-inner">
-    <a class="brand" href="#top"><span class="dot"></span>BioSIGNAL-AI</a>
+    <a class="brand" href="#top"><img src="asset/logo.png" alt="BioSIGNAL-AI"></a>
     <nav class="nav-links">
       <span class="prog-pill" id="progPill">0 / 0 rated</span>
       <a class="btn btn-primary" href="#submit">Submit</a>
@@ -114,25 +140,70 @@
 </header>
 
 <section class="hero">
-  <div class="wrap">
-    <h1>Rate the candidate principles.</h1>
-    <p>Score <b>importance</b>, <b>clarity</b>, and <b>feasibility</b> on a 1–5 scale (each point labelled). Rate the shared core; add ECG / EEG / PPG if that is your expertise.</p>
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <h1>Rate the candidate principles.</h1>
+      <p>Two independent filters: <b>family</b> (Task vs Benchmark) × <b>scope</b> (Shared core / ECG / EEG / PPG). Score importance, clarity, and feasibility on a labelled 1–5 scale.</p>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <img src="asset/web-background.png" alt="">
+    </div>
   </div>
 </section>
 
 <div class="bar">
   <div class="wrap bar-inner">
-    <div class="seg" role="tablist" aria-label="Family">
-      <button class="chip" type="button" data-family="tp" aria-selected="true">A · Task</button>
-      <button class="chip" type="button" data-family="bm" aria-selected="false">B · Benchmark</button>
+    <div class="axes">
+      <div class="axis" role="tablist" aria-label="Family axis">
+        <div class="axis-meta">
+          <div class="axis-num">Axis 1</div>
+          <div class="axis-name">Family</div>
+          <div class="axis-help">What kind of principle — pick one</div>
+        </div>
+        <div class="seg-row">
+          <button class="navchip" type="button" data-family="tp" aria-selected="true">
+            <span class="t">A · Task prioritisation</span>
+            <span class="s">Which clinical problems should become benchmarks</span>
+          </button>
+          <button class="navchip" type="button" data-family="bm" aria-selected="false">
+            <span class="t">B · Benchmark design</span>
+            <span class="s">How a prioritised task becomes a clinical benchmark</span>
+          </button>
+        </div>
+      </div>
+      <div class="axis" role="group" aria-label="Scope axis" id="scopeSeg">
+        <div class="axis-meta">
+          <div class="axis-num">Axis 2</div>
+          <div class="axis-name">Scope</div>
+          <div class="axis-help">Where it applies — pick one (orthogonal to family)</div>
+        </div>
+        <div class="seg-row">
+          <button class="navchip" type="button" data-scope="core" aria-pressed="true">
+            <span class="t">Shared core</span>
+            <span class="s">Cross-modality rules — rated by everyone</span>
+          </button>
+          <button class="navchip" type="button" data-scope="ecg" aria-pressed="false">
+            <span class="t">ECG · Electrocardiography</span>
+            <span class="s">Leads, morphology, device &amp; acuity shifts</span>
+          </button>
+          <button class="navchip" type="button" data-scope="eeg" aria-pressed="false">
+            <span class="t">EEG · Electroencephalography</span>
+            <span class="s">Montage, artefacts, review workload</span>
+          </button>
+          <button class="navchip" type="button" data-scope="ppg" aria-pressed="false">
+            <span class="t">PPG · Photoplethysmography</span>
+            <span class="s">Wearables, motion, skin tone &amp; perfusion</span>
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="seg" role="group" aria-label="Scope" id="scopeSeg">
-      <button class="chip" type="button" data-scope="core" aria-pressed="true">Core</button>
-      <button class="chip" type="button" data-scope="ecg" aria-pressed="false">ECG</button>
-      <button class="chip" type="button" data-scope="eeg" aria-pressed="false">EEG</button>
-      <button class="chip" type="button" data-scope="ppg" aria-pressed="false">PPG</button>
+    <div class="combo" id="comboReadout" aria-live="polite">
+      <span>Now rating:</span>
+      <b id="comboFamily">A · Task prioritisation</b>
+      <span class="x">×</span>
+      <b id="comboScope">Shared core</b>
+      <span class="hint">1–5 · labelled scale</span>
     </div>
-    <span class="hint">1–5 · labelled scale</span>
   </div>
 </div>
 
@@ -163,9 +234,9 @@
           </div>
           <div class="rf-field full"><label>Modalities you rated (besides core)</label>
             <div class="mods" id="modPick">
-              <button type="button" class="chip" data-mod="ecg" aria-pressed="false">ECG</button>
-              <button type="button" class="chip" data-mod="eeg" aria-pressed="false">EEG</button>
-              <button type="button" class="chip" data-mod="ppg" aria-pressed="false">PPG</button>
+              <button type="button" class="chip" data-mod="ecg" aria-pressed="false" title="Electrocardiography">ECG</button>
+              <button type="button" class="chip" data-mod="eeg" aria-pressed="false" title="Electroencephalography">EEG</button>
+              <button type="button" class="chip" data-mod="ppg" aria-pressed="false" title="Photoplethysmography">PPG</button>
             </div>
           </div>
         </div>
@@ -266,6 +337,22 @@ function saveState(s){ localStorage.setItem(STORE_KEY, JSON.stringify(s)); }
 let state = loadState();
 let family = 'tp';
 let scope = 'core';
+const FAMILY_LABEL = {
+  tp: 'A · Task prioritisation',
+  bm: 'B · Benchmark design'
+};
+const SCOPE_LABEL = {
+  core: 'Shared core',
+  ecg: 'ECG · Electrocardiography',
+  eeg: 'EEG · Electroencephalography',
+  ppg: 'PPG · Photoplethysmography'
+};
+function updateCombo(){
+  const f=document.getElementById('comboFamily');
+  const s=document.getElementById('comboScope');
+  if(f) f.textContent=FAMILY_LABEL[family];
+  if(s) s.textContent=SCOPE_LABEL[scope];
+}
 
 function activeScopes(){
   const mods = new Set(state.profile.modalities || []);
@@ -334,6 +421,7 @@ document.querySelectorAll('[data-family]').forEach(b=>{
     document.querySelectorAll('[data-family]').forEach(x=>x.setAttribute('aria-selected','false'));
     b.setAttribute('aria-selected','true');
     family=b.dataset.family;
+    updateCombo();
     render();
   });
 });
@@ -352,6 +440,7 @@ document.querySelectorAll('#scopeSeg [data-scope]').forEach(b=>{
         if(modBtn) modBtn.setAttribute('aria-pressed','true');
       }
     }
+    updateCombo();
     render();
     updateProgress();
   });
@@ -464,6 +553,7 @@ document.getElementById('btnClear').addEventListener('click',()=>{
 
 render();
 updateProgress();
+updateCombo();
 </script>
 </body>
 </html>
